@@ -59,7 +59,7 @@
       }
     },
     "loss_function": "categorical_crossentropy",
-    "metrics": ["accuracy", "recall"]
+    "metrics": ["accuracy"]
   },
   "trainer":{
     "name": "conv_model_trainer.ConvModelTrainer",
