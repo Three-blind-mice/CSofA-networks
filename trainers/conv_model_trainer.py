@@ -1,5 +1,6 @@
 from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping, ReduceLROnPlateau, TensorBoard
 from base.base_train import BaseTrain
+from models.model_setup import optimizers
 from callbacks.cyclic_lr import CyclicLR
 from plot.plot_functions import plot_history
 import os
@@ -10,23 +11,20 @@ class ConvModelTrainer(BaseTrain):
     def __init__(self, config, model):
         super(ConvModelTrainer, self).__init__(config, model)
         self.callbacks = []
-        self.loss = []
-        self.acc = []
-        self.val_loss = []
-        self.val_acc = []
         self._init_callbacks()
 
     def train(self, train_data, val_data):
-        if self.config.trainer.mode == 'with_fine_tuning':
+        if self.config.trainer.mode.lower() == 'with_fine_tuning':
             count_steps = len(self.config.trainer.frozen_per_layers)
             frozen_per_layers = self.config.trainer.frozen_per_layers
             for p, step in zip(frozen_per_layers, range(count_steps)):
                 self._freeze_base_layers(p)
+                self.config.trainer.optimizer.params.learning_rate /= self.config.trainer.optimizer.learning_rate_factor
                 history = self._fit(train_data, val_data, step=step)
                 print(f"Fine tuning step: {step}/{count_steps}, current val accuracy: {history.history['val_acc']}")
                 plot_history(history)
 
-        elif self.config.trainer.mode == 'without_fine_tuning':
+        elif self.config.trainer.mode.lower() == 'without_fine_tuning':
             history = self._fit(train_data, val_data)
             plot_history(history)
         else:
@@ -40,6 +38,16 @@ class ConvModelTrainer(BaseTrain):
         print('Frozen {} layers out of {} \n'.format(fine_tune_at, base_layers_count))
 
     def _fit(self, train_data, val_data, step=0):
+        optimizer_name = self.config.trainer.optimizer.name.lower()
+        optimizer_params = self.config.trainer.optimizer.params.toDict()
+        optimizer = optimizers[optimizer_name](**optimizer_params)
+        loss_function = self.config.trainer.loss_function
+        metrics = self.config.trainer.metrics
+        self.model.compile(
+            optimizer=optimizer,
+            loss=loss_function,
+            metrics=metrics
+        )
         history = self.model.fit(
             train_data,
             validation_data=val_data,

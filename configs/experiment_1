@@ -36,21 +36,26 @@
   },
   "model":{
     "name": "conv_model.ConvModel",
+    "n_layers": 3,
     "transfer_model": {
       "exist": true,
       "name": "dense_net_201",
       "weights": "imagenet"
     },
-    "n_layers": 3,
     "dense": {
       "units": [1024, 512, 256],
       "activation": "tanh_softplus"
     },
     "dropout": {
       "rates": [0.4, 0.4, 0.5]
-    },
+    }
+  },
+  "trainer":{
+    "name": "conv_model_trainer.ConvModelTrainer",
+    "mode": "with_fine_tuning",
     "optimizer": {
       "name": "Adam",
+      "learning_rate_factor": 10,
       "params": {
         "learning_rate": 0.001,
         "beta_1": 0.8,
@@ -59,11 +64,7 @@
       }
     },
     "loss_function": "categorical_crossentropy",
-    "metrics": ["accuracy"]
-  },
-  "trainer":{
-    "name": "conv_model_trainer.ConvModelTrainer",
-    "mode": "with_fine_tuning",
+    "metrics": ["accuracy"],
     "frozen_per_layers": [1, 0.5, 0.25, 0],
     "num_epochs": [10, 15, 25, 50],
     "batch_size": 32,
@@ -76,7 +77,7 @@
     "cyclic_lr": {
       "exist": true,
       "base_lr": 0.001,
-      "max_lr": 0.006,
+      "max_lr": 0.01,
       "step_size": 2000,
       "mode": "triangular",
       "gamma": 1
