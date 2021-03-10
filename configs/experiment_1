@@ -6,7 +6,7 @@
     "path_to_csv": "datasets/aircrafts.csv",
     "path_to_images": "datasets/images",
     "n_classes": 104,
-    "image_size": [299, 299],
+    "image_size": [350, 350],
     "image_n_chanel": 3
   },
   "data_loader": {
@@ -43,11 +43,11 @@
       "weights": "imagenet"
     },
     "dense": {
-      "units": [1024, 512, 256],
-      "activation": "tanh_softplus"
+      "units": [256, 512, 1024],
+      "activation": "relu"
     },
     "dropout": {
-      "rates": [0.4, 0.4, 0.5]
+      "rates": [0.3, 0.4, 0.5]
     }
   },
   "trainer":{
@@ -57,7 +57,7 @@
       "name": "Adam",
       "learning_rate_factor": 10,
       "params": {
-        "learning_rate": 0.001,
+        "learning_rate": 0.01,
         "beta_1": 0.8,
         "beta_2": 0.9,
         "epsilon": 1e-07
@@ -66,7 +66,7 @@
     "loss_function": "categorical_crossentropy",
     "metrics": ["accuracy"],
     "frozen_per_layers": [1, 0.5, 0.25, 0],
-    "num_epochs": [10, 15, 25, 50],
+    "num_epochs": [15, 25, 35, 50],
     "batch_size": 32,
     "validation_split": 0,
     "verbose": true,
@@ -75,8 +75,8 @@
   },
   "callbacks":{
     "cyclic_lr": {
-      "exist": true,
-      "base_lr": 0.001,
+      "exist": false,
+      "base_lr": 0.01,
       "max_lr": 0.01,
       "step_size": 2000,
       "mode": "triangular",
@@ -99,7 +99,7 @@
     "early_stopping": {
       "exist": true,
       "monitor":"val_accuracy",
-      "patience": 3,
+      "patience": 4,
       "restore_best_weights": true
     },
     "reduce_lr_on_plateau": {
@@ -107,7 +107,7 @@
       "monitor": "val_loss",
       "factor": 0.5,
       "patience": 3,
-      "min_lr": 0.001
+      "min_lr": 0.00001
 
     }
   }
