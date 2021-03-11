@@ -21,7 +21,7 @@ class ConvModelTrainer(BaseTrain):
                 self._freeze_base_layers(p)
                 self.config.trainer.optimizer.params.learning_rate /= self.config.trainer.optimizer.learning_rate_factor
                 history = self._fit(train_data, val_data, step=step)
-                print(f"Fine tuning step: {step}/{count_steps}, current val accuracy: {history.history['val_accuracy']}")
+                print(f"Fine tuning step: {step}/{count_steps}, current max val accuracy: {max(history.history['val_accuracy'])}")
                 plot_history(history)
 
         elif self.config.trainer.mode.lower() == 'without_fine_tuning':

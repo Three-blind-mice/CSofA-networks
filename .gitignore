@@ -1,3 +1,6 @@
-/datasets/images/
 /venv/
 /.idea/
+/datasets/fgvc-aircraft-2013b.zip
+/datasets/fgvc_aircraft_images/
+/datasets/images_new/
+/datasets/aircraft_images/

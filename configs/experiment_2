@@ -1,24 +1,24 @@
 {
   "exp": {
-    "name": "1"
+    "name": "2"
   },
   "glob": {
-    "path_to_csv": "datasets/aircrafts.csv",
-    "path_to_images": "datasets/images",
-    "n_classes": 104,
-    "image_size": [350, 350],
+    "path_to_csv": "datasets/fgvc_data.csv",
+    "path_to_images": "datasets/fgvc_aircraft_images",
+    "n_classes": 41,
+    "image_size": [299, 299],
     "image_n_chanel": 3
   },
   "data_loader": {
     "name": "conv_data_generator.DataGenerator",
     "split": {
-      "split_sizes": [0.8, 0.2],
+      "split_sizes": [0.7, 0.3],
       "random_state": 40
     },
     "augmentation": {
       "rescale": 255,
       "rotation_range": 20,
-      "brightness_range": [0.5, 1.5],
+      "brightness_range": [0.8, 1.3],
       "horizontal_flip": true,
       "shear_range": 0.0,
       "zca_epsilon": 1e-06,
@@ -27,7 +27,7 @@
       "height_shift_range": 0.0
     },
     "generator": {
-      "batch_size": 32,
+      "batch_size": 16,
       "class_mode": "categorical",
       "shuffle": true,
       "random_state": 40
@@ -38,15 +38,15 @@
     "n_layers": 3,
     "transfer_model": {
       "exist": true,
-      "name": "dense_net_201",
+      "name": "efficient_net_b7",
       "weights": "imagenet"
     },
     "dense": {
-      "units": [1024, 512, 256],
+      "units": [256, 512, 1024],
       "activation": "relu"
     },
     "dropout": {
-      "rates": [0.5, 0.5, 0.5]
+      "rates": [0.5, 0.3, 0.5]
     }
   },
   "trainer":{
@@ -54,7 +54,7 @@
     "mode": "with_fine_tuning",
     "optimizer": {
       "name": "Adam",
-      "learning_rate_factor": 10,
+      "learning_rate_factor": 5,
       "params": {
         "learning_rate": 0.01,
         "beta_1": 0.8,
@@ -65,7 +65,7 @@
     "loss_function": "categorical_crossentropy",
     "metrics": ["accuracy"],
     "frozen_per_layers": [1, 0.5, 0.25, 0],
-    "num_epochs": [15, 25, 35, 50],
+    "num_epochs": [15, 15, 25, 40],
     "batch_size": 32,
     "validation_split": 0,
     "verbose": true,
@@ -74,8 +74,8 @@
   },
   "callbacks":{
     "cyclic_lr": {
-      "exist": false,
-      "base_lr": 0.01,
+      "exist": true,
+      "base_lr": 0.001,
       "max_lr": 0.01,
       "step_size": 2000,
       "mode": "triangular",
@@ -85,7 +85,7 @@
       "exist": true,
       "dir": "./",
       "monitor": "val_loss",
-      "mode": "min",
+      "mode": "max",
       "save_best_only": true,
       "save_weights_only": true,
       "verbose": true
@@ -97,7 +97,7 @@
     },
     "early_stopping": {
       "exist": true,
-      "monitor":"val_accuracy",
+      "monitor":"val_loss",
       "patience": 4,
       "restore_best_weights": true
     },

@@ -11,62 +11,25 @@ class DataGenerator(BaseDataGenerator):
         super(DataGenerator, self).__init__(config)
         data = pd.read_csv(self.config.glob.path_to_csv, squeeze=True)
         data['Label'] = LabelEncoder().fit_transform(y=data['Class'])
-        if self.config.data_loader.split.mode == 't-v-t':
-            if len(self.config.data_loader.split.split_sizes) == 3:
-                train_size, val_size, test_size = tuple(self.config.data_loader.split.split_sizes)
-                random_state = self.config.data_loader.split.random_state
-                train_files, val_files, train_labels, val_labels = train_test_split(
-                    data,
-                    data['Class'],
-                    train_size=train_size,
-                    test_size=1-train_size,
-                    random_state=random_state,
-                    stratify=data['Class']
-                )
-                k = round(float(val_size/test_size), 2)
-                val_files, test_files, val_labels, test_labels = train_test_split(
-                    val_files,
-                    val_labels,
-                    train_size=k/(k+1),
-                    test_size=1/(k+1),
-                    random_state=random_state,
-                    stratify=val_labels
-                )
-                self.train_files, self.val_files, self.test_files = tuple(
-                    map(pd.DataFrame, [train_files, val_files, test_files])
-                )
-                self.train_files['Class'] = train_labels
-                self.val_files['Class'] = val_labels
-                self.test_files['Class'] = test_labels
-                self.train_generator = self._get_generator(files=train_files, is_train=True)
-                self.val_generator = self._get_generator(files=val_files, is_train=False)
-                self.test_generator = self._get_generator(files=test_files, is_train=False)
-            else:
-                print('Error of split size')
-                raise
-        elif self.config.data_loader.split.mode == 't-t':
-            if len(self.config.data_loader.split.split_sizes) == 2:
-                train_size, test_size = tuple(self.config.data_loader.split.split_sizes)
-                random_state = self.config.data_loader.split.random_state
-                train_files, test_files, train_labels, test_labels = train_test_split(
-                    data,
-                    data['Class'],
-                    train_size=train_size,
-                    test_size=1-train_size,
-                    random_state=random_state,
-                    stratify=data['Class']
-                )
-                self.train_files, self.test_files = tuple(
-                    map(pd.DataFrame, [train_files, test_files]))
-                self.train_files['Class'] = train_labels
-                self.test_files['Class'] = test_labels
-                self.train_generator = self._get_generator(files=train_files, is_train=True)
-                self.test_generator = self._get_generator(files=test_files, is_train=False)
-            else:
-                print('Error of split size')
-                raise
+        if len(self.config.data_loader.split.split_sizes) == 2:
+            train_size, val_size = tuple(self.config.data_loader.split.split_sizes)
+            random_state = self.config.data_loader.split.random_state
+            train_files, val_files, train_labels, val_labels = train_test_split(
+                data,
+                data['Class'],
+                train_size=train_size,
+                test_size=val_size,
+                random_state=random_state,
+                stratify=data['Class']
+            )
+            self.train_files, self.val_files = tuple(
+                map(pd.DataFrame, [train_files, val_files]))
+            self.train_files['Class'] = train_labels
+            self.val_files['Class'] = val_labels
+            self.train_generator = self._get_generator(files=train_files, is_train=True)
+            self.val_generator = self._get_generator(files=val_files, is_train=False)
         else:
-            print('Error of mode split')
+            print('Error of split size')
             raise
 
     def get_train_data(self):
@@ -75,16 +38,8 @@ class DataGenerator(BaseDataGenerator):
     def get_valid_data(self):
         return self.val_generator
 
-    def get_test_data(self):
-        return self.test_generator
-
     def get_data(self):
-        if self.config.data_loader.split.mode == 't-v-t':
-            return self.get_train_data(), self.get_valid_data(), self.get_test_data()
-        elif self.config.data_loader.split.mode == 't-t':
-            return self.get_train_data(), self.get_test_data()
-        else:
-            raise
+        return self.get_train_data(), self.get_valid_data()
 
     def _get_image_generator(self, is_train=True):
         if is_train:
