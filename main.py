@@ -4,6 +4,7 @@ from trainers.conv_model_trainer import ConvModelTrainer
 from utils.config import process_config
 from utils.dirs import create_dirs
 from utils.utils import get_args
+from sklearn.metrics import accuracy_score
 
 
 def main():
