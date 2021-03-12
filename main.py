@@ -14,6 +14,7 @@ def main():
         print("missing or invalid arguments")
         exit(0)
     create_dirs([config.callbacks.tensor_board.log_dir, config.callbacks.checkpoint.dir])
+    print(config.callbacks.checkpoint.dir)
     data_generator = DataGenerator(config)
     print('Created the data generator.')
     model = ConvModel(config)
@@ -23,7 +24,10 @@ def main():
     print('Start training the model.')
     train = data_generator.get_train_data()
     valid = data_generator.get_valid_data()
+    test = data_generator.get_test_data()
     trainer.train(train, valid)
+    trainer.predict(test)
+
 
 if __name__ == '__main__':
     main()

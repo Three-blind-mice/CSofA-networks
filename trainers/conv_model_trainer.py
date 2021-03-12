@@ -30,6 +30,10 @@ class ConvModelTrainer(BaseTrain):
         else:
             raise
 
+    def predict(self, test_data):
+        predict = self.model.predict_proba.argmax(axis=1)
+        return predict
+
     def _freeze_base_layers(self, frozen_per_layers=1.0):
         base_layers_count = len(self.model.layers[0].layers)
         fine_tune_at = int(base_layers_count * frozen_per_layers)
@@ -66,7 +70,7 @@ class ConvModelTrainer(BaseTrain):
             self.callbacks.append(
                 ModelCheckpoint(
                     filepath=os.path.join(self.config.callbacks.checkpoint.dir,
-                                          '%s-{epoch:02d}-{val_loss:.2f}.hdf5' % self.config.exp_name),
+                                          '%s-{epoch:02d}-{val_loss:.2f}.hdf5' % self.config.exp.name),
                     monitor=self.config.callbacks.checkpoint.monitor,
                     mode=self.config.callbacks.checkpoint.mode,
                     save_best_only=self.config.callbacks.checkpoint.save_best_only,
