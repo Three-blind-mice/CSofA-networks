@@ -39,7 +39,7 @@ class ConvModelTrainer(BaseTrain):
         return predict
 
     def _save_history(self, history, step=0):
-        plot_history(history).savefig(os.path.join(self.config.callbacks.checkpoint.dir, 'history-{}'.format(step)))
+        plot_history(history).savefig(os.path.join(self.config.graphics.dir, 'history-{}'.format(step)))
 
     def _freeze_base_layers(self, frozen_per_layers=1.0):
         base_layers_count = len(self.model.layers[0].layers)
