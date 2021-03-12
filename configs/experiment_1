@@ -22,8 +22,8 @@
       "shear_range": 0.0,
       "zca_epsilon": 1e-06,
       "zoom_range": 0.0,
-      "width_shift_range": 0.1,
-      "height_shift_range": 0.1
+      "width_shift_range": 0.0,
+      "height_shift_range": 0.0
     },
     "generator": {
       "batch_size": 16,
@@ -45,7 +45,7 @@
       "activation": "tanh_softplus"
     },
     "dropout": {
-      "rates": [0.5, 0.5, 0.5]
+      "rates": [0.5, 0.5]
     }
   },
   "trainer":{
@@ -55,7 +55,7 @@
       "name": "Adam",
       "learning_rate_factor": 10,
       "params": {
-        "learning_rate": 0.01,
+        "learning_rate": 0.001,
         "beta_1": 0.8,
         "beta_2": 0.9,
         "epsilon": 1e-07
@@ -74,16 +74,16 @@
   "callbacks":{
     "cyclic_lr": {
       "exist": true,
-      "base_lr": 0.01,
-      "max_lr": 0.1,
+      "base_lr": 0.001,
+      "max_lr": 0.01,
       "step_size": 2000,
       "mode": "triangular",
       "gamma": 1
     },
     "checkpoint": {
       "exist": true,
-      "monitor": "val_loss",
-      "mode": "min",
+      "monitor": "val_accuracy",
+      "mode": "max",
       "save_best_only": true,
       "save_weights_only": true,
       "verbose": true
