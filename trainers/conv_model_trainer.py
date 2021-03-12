@@ -42,11 +42,13 @@ class ConvModelTrainer(BaseTrain):
         plot_history(history).savefig(os.path.join(self.config.graphics.dir, 'history-{}'.format(step)))
 
     def _freeze_base_layers(self, frozen_per_layers=1.0):
+        self.model.layers[0].trainable = True
         base_layers_count = len(self.model.layers[0].layers)
         fine_tune_at = int(base_layers_count * frozen_per_layers)
         for layer in self.model.layers[0].layers[:fine_tune_at]:
             layer.trainable = False
         print('Frozen {} layers out of {} \n'.format(fine_tune_at, base_layers_count))
+        print('Trainable layers: {} out of {}\n')
 
     def _fit(self, train_data, val_data, step=0):
         optimizer_name = self.config.trainer.optimizer.name.lower()
