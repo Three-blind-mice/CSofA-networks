@@ -7,11 +7,13 @@ from utils.utils import get_args
 
 
 def main():
+    args = get_args()
+    config = process_config(args.config)
     try:
-        args = get_args()
-        config = process_config(args.config)
+        pass
     except Exception as err:
         print("missing or invalid arguments")
+        print(err)
         exit(0)
     create_dirs([config.callbacks.tensor_board.log_dir, config.callbacks.checkpoint.dir, config.graphics.dir])
     print(config.callbacks.checkpoint.dir)
