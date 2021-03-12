@@ -1,14 +1,13 @@
 {
   "exp": {
-    "name": "exp_2"
+    "name": "exp_4"
   },
   "glob": {
     "path_to_train": "datasets/fgvc_data_train.csv",
     "path_to_test": "datasets/fgvc_data_test.csv",
     "path_to_images": "datasets/fgvc_aircraft_images",
-
     "n_classes": 70,
-    "image_size": [350, 350],
+    "image_size": [299, 299],
     "image_n_chanel": 3
   },
   "data_loader": {
@@ -19,17 +18,15 @@
     },
     "augmentation": {
       "rescale": 0.004,
-      "rotation_range": 10,
-      "brightness_range": [0.5, 1.5],
       "horizontal_flip": true,
-      "shear_range": 0.0,
+      "shear_range": 0.2,
       "zca_epsilon": 1e-06,
       "zoom_range": 0.0,
       "width_shift_range": 0.1,
       "height_shift_range": 0.1
     },
     "generator": {
-      "batch_size": 16,
+      "batch_size": 8,
       "class_mode": "categorical",
       "shuffle": true,
       "random_state": 40
@@ -37,18 +34,18 @@
   },
   "model":{
     "name": "conv_model.ConvModel",
-    "n_layers": 3,
     "transfer_model": {
       "exist": true,
-      "name": "dense_net_201",
+      "name": "efficient_net_b6",
       "weights": "imagenet"
     },
+    "n_layers": 1,
     "dense": {
-      "units": [1024, 512, 256],
+      "units": [256],
       "activation": "relu"
     },
     "dropout": {
-      "rates": [0.5, 0.5, 0.5]
+      "rates": [0.5]
     }
   },
   "trainer":{
@@ -58,7 +55,7 @@
       "name": "Adam",
       "learning_rate_factor": 10,
       "params": {
-        "learning_rate": 0.01,
+        "learning_rate": 0.001,
         "beta_1": 0.8,
         "beta_2": 0.9,
         "epsilon": 1e-07
@@ -67,8 +64,8 @@
     "loss_function": "categorical_crossentropy",
     "metrics": ["accuracy"],
     "frozen_per_layers": [1, 0.5, 0.25, 0],
-    "num_epochs": [15, 20, 30, 40],
-    "batch_size": 16,
+    "num_epochs": [10, 20, 30, 40],
+    "batch_size": 8,
     "validation_split": 0,
     "verbose": true,
     "steps_per_epoch": null,
@@ -76,9 +73,9 @@
   },
   "callbacks":{
     "cyclic_lr": {
-      "exist": true,
-      "base_lr": 0.01,
-      "max_lr": 0.1,
+      "exist": false,
+      "base_lr": 0.001,
+      "max_lr": 0.01,
       "step_size": 2000,
       "mode": "triangular",
       "gamma": 1
@@ -103,11 +100,10 @@
     },
     "reduce_lr_on_plateau": {
       "exist": true,
-      "monitor": "val_accuracy",
+      "monitor": "val_loss",
       "factor": 0.5,
       "patience": 3,
       "min_lr": 0.00001
-
     }
   }
 }

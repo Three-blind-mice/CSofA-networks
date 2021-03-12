@@ -1,6 +1,6 @@
 {
   "exp": {
-    "name": "exp_2"
+    "name": "exp_3"
   },
   "glob": {
     "path_to_train": "datasets/fgvc_data_train.csv",
@@ -19,13 +19,9 @@
     "augmentation": {
       "rescale": 0.004,
       "rotation_range": 20,
-      "brightness_range": [0.5, 1.5],
       "horizontal_flip": true,
-      "shear_range": 0.0,
-      "zca_epsilon": 1e-06,
-      "zoom_range": 0.0,
-      "width_shift_range": 0.1,
-      "height_shift_range": 0.1
+      "width_shift_range": 0.2,
+      "height_shift_range": 0.2
     },
     "generator": {
       "batch_size": 16,
@@ -39,7 +35,7 @@
     "n_layers": 3,
     "transfer_model": {
       "exist": true,
-      "name": "dense_net_201",
+      "name": "xception",
       "weights": "imagenet"
     },
     "dense": {
@@ -54,13 +50,10 @@
     "name": "conv_model_trainer.ConvModelTrainer",
     "mode": "with_fine_tuning",
     "optimizer": {
-      "name": "Adam",
+      "name": "Adadelta",
       "learning_rate_factor": 10,
       "params": {
-        "learning_rate": 0.01,
-        "beta_1": 0.8,
-        "beta_2": 0.9,
-        "epsilon": 1e-07
+        "learning_rate": 0.01
       }
     },
     "loss_function": "categorical_crossentropy",
@@ -75,9 +68,9 @@
   },
   "callbacks":{
     "cyclic_lr": {
-      "exist": true,
-      "base_lr": 0.01,
-      "max_lr": 0.1,
+      "exist": false,
+      "base_lr": 0.001,
+      "max_lr": 0.01,
       "step_size": 2000,
       "mode": "triangular",
       "gamma": 1

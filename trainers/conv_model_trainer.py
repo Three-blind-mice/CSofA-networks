@@ -18,21 +18,28 @@ class ConvModelTrainer(BaseTrain):
             count_steps = len(self.config.trainer.frozen_per_layers)
             frozen_per_layers = self.config.trainer.frozen_per_layers
             for p, step in zip(frozen_per_layers, range(count_steps)):
+                print(f"Fine tuning step: {step}/{count_steps - 1}")
                 self._freeze_base_layers(p)
                 self.config.trainer.optimizer.params.learning_rate /= self.config.trainer.optimizer.learning_rate_factor
                 history = self._fit(train_data, val_data, step=step)
-                print(f"Fine tuning step: {step}/{count_steps}, current max val accuracy: {max(history.history['val_accuracy'])}")
-                plot_history(history)
+                self._save_history(history=history, step=step+1)
+                self.model.load(os.path.join(self.config.callbacks.checkpoint.dir, 'best_model.hdf5'))
+                self.model.save(os.path.join(self.config.callbacks.checkpoint.dir, 'model_step-{}.hdf5'.format(step)))
 
         elif self.config.trainer.mode.lower() == 'without_fine_tuning':
             history = self._fit(train_data, val_data)
-            plot_history(history)
+            self._save_history(history=history)
+            self.model.load(os.path.join(self.config.callbacks.checkpoint.dir, 'best_model.hdf5'))
+            self.model.save(os.path.join(self.config.callbacks.checkpoint.dir, 'model_step-{}.hdf5'.format(step)))
         else:
             raise
 
     def predict(self, test_data):
-        predict = self.model.predict_proba.argmax(axis=1)
+        predict = self.model.predict_proba(test_data).argmax(axis=1)
         return predict
+
+    def _save_history(self, history, step=0):
+        plot_history(history).savefig(os.path.join(self.config.callbacks.checkpoint.dir, 'history-{}'.format(step)))
 
     def _freeze_base_layers(self, frozen_per_layers=1.0):
         base_layers_count = len(self.model.layers[0].layers)
@@ -69,8 +76,7 @@ class ConvModelTrainer(BaseTrain):
         if self.config.callbacks.checkpoint.exist:
             self.callbacks.append(
                 ModelCheckpoint(
-                    filepath=os.path.join(self.config.callbacks.checkpoint.dir,
-                                          '%s-{epoch:02d}-{val_loss:.2f}.hdf5' % self.config.exp.name),
+                    filepath=os.path.join(self.config.callbacks.checkpoint.dir, 'best_model.hdf5'),
                     monitor=self.config.callbacks.checkpoint.monitor,
                     mode=self.config.callbacks.checkpoint.mode,
                     save_best_only=self.config.callbacks.checkpoint.save_best_only,
