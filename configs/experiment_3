@@ -7,7 +7,7 @@
     "path_to_test": "datasets/fgvc_data_test.csv",
     "path_to_images": "datasets/fgvc_aircraft_images",
     "n_classes": 70,
-    "image_size": [350, 350],
+    "image_size": [400, 400],
     "image_n_chanel": 3
   },
   "data_loader": {
