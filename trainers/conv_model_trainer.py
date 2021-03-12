@@ -23,7 +23,7 @@ class ConvModelTrainer(BaseTrain):
                 self.config.trainer.optimizer.params.learning_rate /= self.config.trainer.optimizer.learning_rate_factor
                 history = self._fit(train_data, val_data, step=step)
                 self._save_history(history=history, step=step+1)
-                self.model.load(os.path.join(self.config.callbacks.checkpoint.dir, 'best_model.hdf5'))
+                self.model.load_weights(os.path.join(self.config.callbacks.checkpoint.dir, 'best_model.hdf5'))
                 self.model.save(os.path.join(self.config.callbacks.checkpoint.dir, 'model_step-{}.hdf5'.format(step)))
 
         elif self.config.trainer.mode.lower() == 'without_fine_tuning':

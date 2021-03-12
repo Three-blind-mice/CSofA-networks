@@ -28,7 +28,8 @@ def main():
     valid = data_generator.get_valid_data()
     test = data_generator.get_test_data()
     trainer.train(train, valid)
-    trainer.predict(test)
+    predict = trainer.predict(test)
+    print("Accuracy on test subset: %.2f%%" % (accuracy_score(test_files['Label'], predict) * 100))
 
 
 if __name__ == '__main__':
