@@ -10,6 +10,9 @@
     "image_size": [299, 299],
     "image_n_chanel": 3
   },
+  "graphics": {
+    "dir": "./"
+  },
   "data_loader": {
     "name": "conv_data_generator.DataGenerator",
     "split": {
