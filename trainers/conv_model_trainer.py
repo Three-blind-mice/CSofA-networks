@@ -47,8 +47,9 @@ class ConvModelTrainer(BaseTrain):
         fine_tune_at = int(base_layers_count * frozen_per_layers)
         for layer in self.model.layers[0].layers[:fine_tune_at]:
             layer.trainable = False
+        trainable_layers_count = len(self.model.layers[0].trainable_variables)
         print('Frozen {} layers out of {} \n'.format(fine_tune_at, base_layers_count))
-        print('Trainable layers: {} out of {}\n')
+        print('Trainable layers: {} out of {}\n'.format(trainable_layers_count, base_layers_count))
 
     def _fit(self, train_data, val_data, step=0):
         optimizer_name = self.config.trainer.optimizer.name.lower()
