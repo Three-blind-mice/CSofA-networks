@@ -82,7 +82,7 @@
       "verbose": true
     },
     "tensor_board": {
-      "exist": true,
+      "exist": false,
       "write_graph": true
     },
     "early_stopping": {
