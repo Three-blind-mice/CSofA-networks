@@ -37,7 +37,7 @@
     },
     "n_layers": 3,
     "dense": {
-      "units": [1024, 512, 512],
+      "units": [1024, 512, 256],
       "activation": "tanh_softplus"
     },
     "dropout": {
@@ -49,7 +49,7 @@
     "mode": "with_fine_tuning",
     "optimizer": {
       "name": "adam",
-      "learning_rate_factor": 10,
+      "learning_rate_factor": 5,
       "params": {
         "learning_rate": 0.01
       }
@@ -95,7 +95,7 @@
       "exist": true,
       "monitor": "val_loss",
       "factor": 0.5,
-      "patience": 2,
+      "patience": 3,
       "min_lr": 0.00001
     }
   }
