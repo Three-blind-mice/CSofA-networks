@@ -6,3 +6,10 @@
 /datasets/aircraft_images/
 /datasets/fgvc_aircraft_images.zip
 /base/
+/datasets/new_images.zip
+/datasets/new_images/
+/datasets/aircraft_data_test.csv
+/datasets/aircraft_data_train.csv
+/parsers/
+/datasets/military_images/
+/datasets/aircraft_images.zip

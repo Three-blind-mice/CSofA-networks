@@ -4,8 +4,6 @@ from trainers.conv_model_trainer import ConvModelTrainer
 from utils.config import process_config
 from utils.dirs import create_dirs
 from utils.utils import get_args
-from sklearn.metrics import accuracy_score
-from sklearn.preprocessing import LabelEncoder
 
 
 def main():
@@ -30,9 +28,7 @@ def main():
     valid = data_generator.get_valid_data()
     test = data_generator.get_test_data()
     trainer.train(train, valid)
-    predict = trainer.predict(test)
-    labels = LabelEncoder().fit_transform(test['Id'])
-    print("Accuracy on test subset: %.2f%%" % (accuracy_score(labels, predict) * 100))
+    trainer.evaluate(test)
 
 
 if __name__ == '__main__':

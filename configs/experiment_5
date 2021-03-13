@@ -94,7 +94,7 @@
       "exist": true,
       "monitor": "val_loss",
       "factor": 0.5,
-      "patience": 3,
+      "patience": 2,
       "min_lr": 0.00001
     }
   }
