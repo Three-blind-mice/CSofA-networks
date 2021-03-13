@@ -16,6 +16,7 @@ class ConvModelTrainer(BaseTrain):
 
     def train(self, train_data, val_data):
         if self.config.trainer.mode.lower() == 'with_fine_tuning':
+            print(f'Start training model: {time.time()}')
             count_steps = len(self.config.trainer.frozen_per_layers)
             frozen_per_layers = self.config.trainer.layers
             for p, step in zip(frozen_per_layers, range(count_steps)):
