@@ -7,7 +7,7 @@
     "path_to_test": "datasets/aircraft_data_test.csv",
     "path_to_images": "datasets/aircraft_images",
     "n_classes": 91,
-    "image_size": [350, 350],
+    "image_size": [256, 256],
     "image_n_chanel": 3
   },
   "data_loader": {
