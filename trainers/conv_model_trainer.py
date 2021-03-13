@@ -4,6 +4,7 @@ from models.model_setup import optimizers
 from callbacks.cyclic_lr import CyclicLR
 from plot.plot_functions import plot_history
 import os
+import time
 
 
 class ConvModelTrainer(BaseTrain):
@@ -18,13 +19,15 @@ class ConvModelTrainer(BaseTrain):
             count_steps = len(self.config.trainer.frozen_per_layers)
             frozen_per_layers = self.config.trainer.frozen_per_layers
             for p, step in zip(frozen_per_layers, range(count_steps)):
-                print(f"Fine tuning step: {step}/{count_steps - 1}")
+                print(f"Fine tuning step: {step}/{count_steps - 1}\n")
+                start_time = time.time()
                 self._freeze_base_layers(p)
                 self.config.trainer.optimizer.params.learning_rate /= self.config.trainer.optimizer.learning_rate_factor
                 history = self._fit(train_data, val_data, step=step)
                 self._save_history(history=history, step=step+1)
                 self.model.load_weights(os.path.join(self.config.callbacks.checkpoint.dir, 'best_model.hdf5'))
                 self.model.save(os.path.join(self.config.callbacks.checkpoint.dir, 'model_step-{}.hdf5'.format(step)))
+                print(f"Fine tuning step: {step} was completed in {time.time()-start_time}\n")
 
         elif self.config.trainer.mode.lower() == 'without_fine_tuning':
             history = self._fit(train_data, val_data)
@@ -36,20 +39,20 @@ class ConvModelTrainer(BaseTrain):
 
     def evaluate(self, data):
         scores = self.model.evaluate(data, verbose=1)
-        print("Accuracy: %.2f%%" % (scores[1] * 100))
+        print("Achieved an accuracy of: %.2f%%\n" % (scores[1] * 100))
 
     def _save_history(self, history, step=0):
         plot_history(history).savefig(os.path.join(self.config.graphics.dir, 'history-{}'.format(step)))
 
     def _freeze_base_layers(self, frozen_per_layers=1.0):
         self.model.layers[0].trainable = True
-        base_layers_count = len(self.model.layers[0].layers)
+        base_layers_count = len(self.model.layers[0].trainable_variables)
         fine_tune_at = int(base_layers_count * frozen_per_layers)
         for layer in self.model.layers[0].layers[:fine_tune_at]:
             layer.trainable = False
         trainable_layers_count = len(self.model.layers[0].trainable_variables)
-        print('Frozen layers: {} out of {} \n'.format(fine_tune_at, base_layers_count))
-        print('Trainable layers: {} out of {}\n'.format(trainable_layers_count, base_layers_count))
+        print(f'Frozen layers: {fine_tune_at} out of {base_layers_count}\n')
+        print(f'Trainable layers: {trainable_layers_count} out of {base_layers_count}\n')
 
     def _fit(self, train_data, val_data, step=0):
         optimizer_name = self.config.trainer.optimizer.name.lower()

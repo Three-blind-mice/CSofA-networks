@@ -13,7 +13,7 @@
   "data_loader": {
     "name": "conv_data_generator.DataGenerator",
     "split": {
-      "split_sizes": [0.85, 0.15],
+      "split_sizes": [0.8, 0.2],
       "random_state": 100
     },
     "augmentation": {
@@ -35,7 +35,7 @@
       "name": "dense_net_201",
       "weights": "imagenet"
     },
-    "n_layers": 2,
+    "n_layers": 3,
     "dense": {
       "units": [1024, 512],
       "activation": "tanh_softplus"
@@ -75,19 +75,20 @@
     },
     "checkpoint": {
       "exist": true,
-      "monitor": "val_loss",
+      "monitor": "val_accuracy",
+      "mode": "max",
       "save_best_only": true,
       "save_weights_only": true,
       "verbose": true
     },
     "tensor_board": {
-      "exist": true,
+      "exist": false,
       "write_graph": true
     },
     "early_stopping": {
       "exist": true,
-      "monitor":"val_loss",
-      "patience": 5,
+      "monitor":"val_accuracy",
+      "patience": 4,
       "restore_best_weights": true
     },
     "reduce_lr_on_plateau": {
