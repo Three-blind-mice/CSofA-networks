@@ -15,8 +15,8 @@ class ConvModelTrainer(BaseTrain):
         self._init_callbacks()
 
     def train(self, train_data, val_data):
+        print('Model training has started')
         if self.config.trainer.mode.lower() == 'with_fine_tuning':
-            print('Start training model}')
             count_steps = len(self.config.trainer.frozen_per_layers)
             frozen_per_layers = self.config.trainer.frozen_per_layers
             for p, step in zip(frozen_per_layers, range(count_steps)):
@@ -29,7 +29,6 @@ class ConvModelTrainer(BaseTrain):
                 self.model.load_weights(os.path.join(self.config.callbacks.checkpoint.dir, 'best_model.hdf5'))
                 self.model.save(os.path.join(self.config.callbacks.checkpoint.dir, 'model_step-{}.hdf5'.format(step)))
                 print(f"Fine tuning step: {step} was completed in {time.time()-start_time}\n")
-
         elif self.config.trainer.mode.lower() == 'without_fine_tuning':
             history = self._fit(train_data, val_data)
             self._save_history(history=history)
@@ -37,13 +36,16 @@ class ConvModelTrainer(BaseTrain):
             self.model.save(os.path.join(self.config.callbacks.checkpoint.dir, 'model_step-{}.hdf5'.format(step)))
         else:
             raise
+        print('Model training completed successfully')
 
     def evaluate(self, data):
         scores = self.model.evaluate(data, verbose=1)
         print("Achieved an accuracy of: %.2f%%\n" % (scores[1] * 100))
 
     def _save_history(self, history, step=0):
-        plot_history(history).savefig(os.path.join(self.config.graphics.dir, 'history-{}'.format(step)))
+        path= os.path.join(self.config.graphics.dir, 'history-{}'.format(step))
+        plot_history(history).savefig(path)
+        print(f'Graph of history of the loss function and accuracy was saved to {path}')
 
     def _freeze_base_layers(self, frozen_per_layers=1.0):
         self.model.layers[0].trainable = True
