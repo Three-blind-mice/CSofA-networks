@@ -17,7 +17,7 @@ class ConvModelTrainer(BaseTrain):
     def train(self, train_data, val_data):
         if self.config.trainer.mode.lower() == 'with_fine_tuning':
             count_steps = len(self.config.trainer.frozen_per_layers)
-            frozen_per_layers = self.config.trainer.frozen_per_layers
+            frozen_per_layers = self.config.trainer.layers
             for p, step in zip(frozen_per_layers, range(count_steps)):
                 print(f"Fine tuning step: {step}/{count_steps - 1}\n")
                 start_time = time.time()
