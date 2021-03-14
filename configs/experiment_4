@@ -20,8 +20,8 @@
       "rescale": 0.004,
       "zoom_range": [0.75, 1.25],
       "horizontal_flip": true,
-      "width_shift_range": 0.2,
-      "height_shift_range": 0.2
+      "width_shift_range": 0.1,
+      "height_shift_range": 0.1
     },
     "generator": {
       "batch_size": 64,
@@ -34,16 +34,16 @@
     "name": "conv_model.ConvModel",
     "transfer_model": {
       "exist": true,
-      "name": "efficient_net_b7",
-      "weights": "noisy-student"
+      "name": "dense_net_201",
+      "weights": "imagenet"
     },
     "n_layers": 2,
     "dense": {
-      "units": [512, 512],
+      "units": [1024, 512],
       "activation": "tanh_softplus"
     },
     "dropout": {
-      "rates": [0.5, 0.5]
+      "rates": [0.6, 0.5]
     }
   },
   "trainer":{
