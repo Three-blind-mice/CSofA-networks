@@ -22,7 +22,7 @@
       "horizontal_flip": true
     },
     "generator": {
-      "batch_size": 16,
+      "batch_size": 8,
       "class_mode": "categorical",
       "shuffle": true,
       "random_state": 40
@@ -56,9 +56,9 @@
     },
     "loss_function": "categorical_crossentropy",
     "metrics": ["accuracy"],
-    "frozen_per_layers": [1, 0],
-    "num_epochs": [10, 10],
-    "batch_size": 16,
+    "frozen_per_layers": [0],
+    "num_epochs": [10],
+    "batch_size": 8,
     "validation_split": 0,
     "verbose": true,
     "steps_per_epoch": null,
