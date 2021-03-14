@@ -38,7 +38,3 @@ class ConvModel(BaseModel):
             self.model.add(Dropout(rate=dropout_rate))
         self.model.add(Dense(n_classes, activation='softmax'))
 
-        # base_layers_count = len(self.model.layers[0].trainable_variables)
-        # fine_tune_at = int(base_layers_count * 0.5)
-        # for layer in self.model.layers[0].layers[:fine_tune_at]:
-        #     layer.trainable = False
