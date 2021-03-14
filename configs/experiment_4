@@ -35,15 +35,15 @@
     "transfer_model": {
       "exist": true,
       "name": "dense_net_201",
-      "weights": "imagenet"
+      "weights": "noisy-student"
     },
-    "n_layers": 1,
+    "n_layers": 2,
     "dense": {
-      "units": [2048],
+      "units": [512, 512],
       "activation": "tanh_softplus"
     },
     "dropout": {
-      "rates": [0.5]
+      "rates": [0.5, 0.5]
     }
   },
   "trainer":{
@@ -59,7 +59,7 @@
     "loss_function": "categorical_crossentropy",
     "metrics": ["accuracy"],
     "frozen_per_layers": [1, 0.5, 0],
-    "num_epochs": [10, 20, 30],
+    "num_epochs": [5, 10, 20],
     "batch_size": 64,
     "validation_split": 0,
     "verbose": true,
@@ -77,8 +77,7 @@
     },
     "checkpoint": {
       "exist": true,
-      "monitor": "val_accuracy",
-      "mode": "max",
+      "monitor": "val_loss",
       "save_best_only": true,
       "save_weights_only": true,
       "verbose": true
@@ -89,7 +88,7 @@
     },
     "early_stopping": {
       "exist": true,
-      "monitor":"val_accuracy",
+      "monitor":"val_loss",
       "patience": 4,
       "restore_best_weights": true
     },
