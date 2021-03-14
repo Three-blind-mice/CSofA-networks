@@ -33,8 +33,8 @@ class ConvModelTrainer(BaseTrain):
             self.model.layers[0].trainable = True
             history = self._fit(train_data, val_data)
             self._save_history(history=history)
-            self.model.load(os.path.join(self.config.callbacks.checkpoint.dir, 'best_model.hdf5'))
-            self.model.save(os.path.join(self.config.callbacks.checkpoint.dir, 'model_step-{}.hdf5'.format(step)))
+            self.model.load_weights(os.path.join(self.config.callbacks.checkpoint.dir, 'best_model.hdf5'))
+            self.model.save(os.path.join(self.config.callbacks.checkpoint.dir, 'model.hdf5'))
         else:
             raise
         print('Model training completed successfully')
