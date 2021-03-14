@@ -21,6 +21,7 @@ class ConvModelTrainer(BaseTrain):
             for p, step in zip(frozen_per_layers, range(count_steps)):
                 print(f"Fine tuning step: {step}/{count_steps - 1}\n")
                 start_time = time.time()
+                self.model.layers[0].trainable = True
                 self._freeze_base_layers(p)
                 self.config.trainer.optimizer.params.learning_rate /= self.config.trainer.optimizer.learning_rate_factor
                 history = self._fit(train_data, val_data, step=step)
@@ -29,6 +30,7 @@ class ConvModelTrainer(BaseTrain):
                 self.model.save(os.path.join(self.config.callbacks.checkpoint.dir, 'model_step-{}.hdf5'.format(step)))
                 print(f"Fine tuning step: {step} was completed in {((time.time()-start_time)/60):.2f} min\n")
         elif self.config.trainer.mode.lower() == 'without_fine_tuning':
+            self.model.layers[0].trainable = True
             history = self._fit(train_data, val_data)
             self._save_history(history=history)
             self.model.load(os.path.join(self.config.callbacks.checkpoint.dir, 'best_model.hdf5'))
@@ -47,7 +49,6 @@ class ConvModelTrainer(BaseTrain):
         print(f'Graph of history of the loss function and accuracy was saved to {path}')
 
     def _freeze_base_layers(self, frozen_per_layers=1.0):
-        self.model.layers[0].trainable = True
         base_layers_count = len(self.model.layers[0].trainable_variables)
         fine_tune_at = int(base_layers_count * frozen_per_layers)
         for layer in self.model.layers[0].layers[:fine_tune_at]:
