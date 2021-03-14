@@ -53,7 +53,7 @@
       "name": "adam",
       "learning_rate_factor": 10,
       "params": {
-        "learning_rate": 0.1
+        "learning_rate": 0.001
       }
     },
     "loss_function": "categorical_crossentropy",
