@@ -19,7 +19,6 @@ class ConvModelTrainer(BaseTrain):
             count_steps = len(self.config.trainer.frozen_per_layers)
             frozen_per_layers = self.config.trainer.frozen_per_layers
             for p, step in zip(frozen_per_layers, range(count_steps)):
-                self._init_callbacks()
                 print(f"Fine tuning step: {step}/{count_steps - 1}\n")
                 start_time = time.time()
                 self._freeze_base_layers(p)
@@ -81,7 +80,7 @@ class ConvModelTrainer(BaseTrain):
         )
         return history
 
-    def _init_callbacks(self):
+    def _init_callbacks(self, step=0):
         if self.config.callbacks.checkpoint.exist:
             self.callbacks.append(
                 ModelCheckpoint(

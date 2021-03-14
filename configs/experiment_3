@@ -1,6 +1,6 @@
 {
   "exp": {
-    "name": "exp_2"
+    "name": "exp_3"
   },
   "glob": {
     "path_to_train": "datasets/aircraft_data_train.csv",
