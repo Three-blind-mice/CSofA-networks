@@ -57,7 +57,7 @@
     "loss_function": "categorical_crossentropy",
     "metrics": ["accuracy"],
     "frozen_per_layers": [1, 0.5, 0],
-    "num_epochs": [20, 20, 30],
+    "num_epochs": [10, 10, 15],
     "batch_size": 64,
     "validation_split": 0,
     "verbose": true,
@@ -75,8 +75,7 @@
     },
     "checkpoint": {
       "exist": true,
-      "monitor": "val_accuracy",
-      "mode": "max",
+      "monitor": "val_loss",
       "save_best_only": true,
       "save_weights_only": true,
       "verbose": true
@@ -87,7 +86,7 @@
     },
     "early_stopping": {
       "exist": true,
-      "monitor":"val_accuracy",
+      "monitor":"val_loss",
       "patience": 4,
       "restore_best_weights": true
     },

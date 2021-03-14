@@ -59,7 +59,7 @@
     "loss_function": "categorical_crossentropy",
     "metrics": ["accuracy"],
     "frozen_per_layers": [1, 0.5, 0],
-    "num_epochs": [15, 20, 30],
+    "num_epochs": [10, 20, 30],
     "batch_size": 64,
     "validation_split": 0,
     "verbose": true,
@@ -84,7 +84,7 @@
       "verbose": true
     },
     "tensor_board": {
-      "exist": false,
+      "exist": true,
       "write_graph": true
     },
     "early_stopping": {
@@ -96,7 +96,7 @@
     "reduce_lr_on_plateau": {
       "exist": true,
       "monitor": "val_loss",
-      "factor": 0.5,
+      "factor": 0.2,
       "patience": 2,
       "min_lr": 0.00001
     }

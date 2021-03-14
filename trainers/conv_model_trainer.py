@@ -27,7 +27,7 @@ class ConvModelTrainer(BaseTrain):
                 self._save_history(history=history, step=step+1)
                 self.model.load_weights(os.path.join(self.config.callbacks.checkpoint.dir, 'best_model.hdf5'))
                 self.model.save(os.path.join(self.config.callbacks.checkpoint.dir, 'model_step-{}.hdf5'.format(step)))
-                print(f"Fine tuning step: {step} was completed in {(time.time()-start_time)/60} min\n")
+                print(f"Fine tuning step: {step} was completed in {((time.time()-start_time)/60):.2f} min\n")
         elif self.config.trainer.mode.lower() == 'without_fine_tuning':
             history = self._fit(train_data, val_data)
             self._save_history(history=history)
