@@ -51,13 +51,13 @@
       "name": "adam",
       "learning_rate_factor": 10,
       "params": {
-        "learning_rate": 0.0001
+        "learning_rate": 0.001
       }
     },
     "loss_function": "categorical_crossentropy",
     "metrics": ["accuracy"],
     "frozen_per_layers": [1, 0.5, 0],
-    "num_epochs": [10, 10, 15],
+    "num_epochs": [20],
     "batch_size": 64,
     "validation_split": 0,
     "verbose": true,
@@ -67,7 +67,7 @@
   "callbacks":{
     "cyclic_lr": {
       "exist": true,
-      "base_lr": 0.0001,
+      "base_lr": 0.001,
       "max_lr": 0.01,
       "step_size": 2000,
       "mode": "triangular",
