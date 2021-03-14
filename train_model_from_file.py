@@ -9,6 +9,7 @@ from utils.utils import get_args
 def main():
     args = get_args()
     config = process_config(args.config)
+    model_file = args.model_file
     try:
         pass
     except Exception as err:
