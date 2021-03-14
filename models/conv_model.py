@@ -19,6 +19,10 @@ class ConvModel(BaseModel):
                 include_top=False,
                 input_shape=input_shape
             )
+            self.transfer_model.trainable = True
+            fine_tune_at = len(self.transfer_model.layers) // 2
+            for layer in self.transfer_model.layers[:fine_tune_at]:
+                layer.trainable = False
         else:
             self.transfer_model = None
         self.model = Sequential([
