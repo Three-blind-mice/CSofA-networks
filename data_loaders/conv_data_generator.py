@@ -10,6 +10,7 @@ class DataGenerator(BaseDataGenerator):
         super(DataGenerator, self).__init__(config)
         train_data = pd.read_csv(self.config.glob.path_to_train, squeeze=True)
         test_data = pd.read_csv(self.config.glob.path_to_test, squeeze=True)
+        self.config.glob.n_classes = train_data['Class'].nunique()
         if len(self.config.data_loader.split.split_sizes) == 2:
             train_size, val_size = tuple(self.config.data_loader.split.split_sizes)
             random_state = self.config.data_loader.split.random_state

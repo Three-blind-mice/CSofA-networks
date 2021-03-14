@@ -19,7 +19,9 @@
     "augmentation": {
       "rescale": 0.004,
       "zoom_range": [0.75, 1.25],
-      "horizontal_flip": true
+      "horizontal_flip": true,
+      "width_shift_range": 0.2,
+      "height_shift_range": 0.2
     },
     "generator": {
       "batch_size": 64,
@@ -35,13 +37,13 @@
       "name": "dense_net_201",
       "weights": "imagenet"
     },
-    "n_layers": 2,
+    "n_layers": 1,
     "dense": {
-      "units": [1024, 512],
+      "units": [2048],
       "activation": "tanh_softplus"
     },
     "dropout": {
-      "rates": [0.5, 0.5]
+      "rates": [0.5]
     }
   },
   "trainer":{
@@ -51,13 +53,13 @@
       "name": "adam",
       "learning_rate_factor": 10,
       "params": {
-        "learning_rate": 0.01
+        "learning_rate": 0.1
       }
     },
     "loss_function": "categorical_crossentropy",
     "metrics": ["accuracy"],
     "frozen_per_layers": [1, 0.5, 0],
-    "num_epochs": [20, 20, 30],
+    "num_epochs": [15, 20, 30],
     "batch_size": 64,
     "validation_split": 0,
     "verbose": true,

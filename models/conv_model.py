@@ -25,7 +25,7 @@ class ConvModel(BaseModel):
             self.transfer_model,
             GlobalAveragePooling2D()
         ])
-        n_layers = self.config.model.n_layers
+        n_layers = len(self.config.model.dense.units)
         dense_units = self.config.model.dense.units
         dense_activation = self.config.model.dense.activation
         dropout_rates = self.config.model.dropout.rates
