@@ -1,6 +1,6 @@
 {
   "exp": {
-    "name": "exp_8"
+    "name": "exp_6_1"
   },
   "glob": {
     "path_to_train": "datasets/aircraft_data_train.csv",
@@ -19,7 +19,9 @@
     "augmentation": {
       "rescale": 0.004,
       "zoom_range": [0.75, 1.25],
-      "horizontal_flip": true
+      "horizontal_flip": true,
+      "width_shift_range": 0.1,
+      "height_shift_range": 0.1
     },
     "generator": {
       "batch_size": 8,
@@ -35,13 +37,13 @@
       "name": "dense_net_201",
       "weights": "imagenet"
     },
-    "n_layers": 1,
+    "n_layers": 2,
     "dense": {
-      "units": [2048],
+      "units": [1024, 512],
       "activation": "tanh_softplus"
     },
     "dropout": {
-      "rates": [0.5]
+      "rates": [0.5, 0.5]
     }
   },
   "trainer":{
@@ -51,7 +53,7 @@
       "name": "nadam",
       "learning_rate_factor": 10,
       "params": {
-        "learning_rate": 1e-5
+        "learning_rate": 1e-4
       }
     },
     "loss_function": "categorical_crossentropy",
@@ -67,7 +69,7 @@
   "callbacks":{
     "cyclic_lr": {
       "exist": true,
-      "base_lr": 0.001,
+      "base_lr": 0.0001,
       "max_lr": 0.01,
       "step_size": 2000,
       "mode": "triangular",
@@ -75,26 +77,26 @@
     },
     "checkpoint": {
       "exist": true,
-      "monitor": "val_accuracy",
-      "mode": "max",
+      "monitor": "val_loss",
+      "mode": "auto",
       "save_best_only": true,
       "save_weights_only": true,
       "verbose": true
     },
     "tensor_board": {
-      "exist": false,
+      "exist": true,
       "write_graph": true
     },
     "early_stopping": {
       "exist": true,
-      "monitor":"val_accuracy",
+      "monitor":"val_loss",
       "patience": 4,
       "restore_best_weights": true
     },
     "reduce_lr_on_plateau": {
       "exist": true,
       "monitor": "val_loss",
-      "factor": 0.1,
+      "factor": 0.5,
       "patience": 2,
       "min_lr": 0.00001
     }
