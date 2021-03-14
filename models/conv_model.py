@@ -19,10 +19,6 @@ class ConvModel(BaseModel):
                 include_top=False,
                 input_shape=input_shape
             )
-            self.transfer_model.trainable = True
-            fine_tune_at = len(self.transfer_model.layers) // 2
-            for layer in self.transfer_model.layers[:fine_tune_at]:
-                layer.trainable = False
         else:
             self.transfer_model = None
         self.model = Sequential([
@@ -42,3 +38,7 @@ class ConvModel(BaseModel):
             self.model.add(Dropout(rate=dropout_rate))
         self.model.add(Dense(n_classes, activation='softmax'))
 
+        base_layers_count = len(self.model.layers[0].trainable_variables)
+        fine_tune_at = int(base_layers_count * 0.5)
+        for layer in self.model.layers[0].layers[:fine_tune_at]:
+            layer.trainable = False
