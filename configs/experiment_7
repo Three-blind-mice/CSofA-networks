@@ -48,9 +48,9 @@
   },
   "trainer":{
     "name": "conv_model_trainer.ConvModelTrainer",
-    "mode": "with_fine_tuning",
+    "mode": "without_fine_tuning",
     "optimizer": {
-      "name": "adam",
+      "name": "nadam",
       "learning_rate_factor": 10,
       "params": {
         "learning_rate": 0.001

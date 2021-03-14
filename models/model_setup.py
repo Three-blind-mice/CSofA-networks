@@ -1,5 +1,5 @@
 from tensorflow.keras.applications import DenseNet201, VGG19, Xception
-from tensorflow.keras.optimizers import SGD, Adamax, Adam, Adadelta, Adagrad
+from tensorflow.keras.optimizers import SGD, Adamax, Adam, Adadelta, Adagrad, Nadam
 from efficientnet.tfkeras import EfficientNetB6, EfficientNetB7
 
 transfer_models = {
@@ -15,5 +15,6 @@ optimizers = {
     'sgd': SGD,
     'adamax': Adamax,
     'adadelta': Adadelta,
-    'adagrad': Adagrad
+    'adagrad': Adagrad,
+    'nadam': Nadam
 }
