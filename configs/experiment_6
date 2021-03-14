@@ -22,7 +22,7 @@
       "horizontal_flip": true
     },
     "generator": {
-      "batch_size": 64,
+      "batch_size": 32,
       "class_mode": "categorical",
       "shuffle": true,
       "random_state": 40
