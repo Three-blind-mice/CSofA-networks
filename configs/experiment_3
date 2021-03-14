@@ -50,7 +50,7 @@
     "name": "conv_model_trainer.ConvModelTrainer",
     "mode": "with_fine_tuning",
     "optimizer": {
-      "name": "adam",
+      "name": "nadam",
       "learning_rate_factor": 10,
       "params": {
         "learning_rate": 0.1
@@ -58,8 +58,8 @@
     },
     "loss_function": "categorical_crossentropy",
     "metrics": ["accuracy"],
-    "frozen_per_layers": [1, 0.5, 0],
-    "num_epochs": [10, 20, 30],
+    "frozen_per_layers": [1, 0],
+    "num_epochs": [1, 30],
     "batch_size": 32,
     "validation_split": 0,
     "verbose": true,

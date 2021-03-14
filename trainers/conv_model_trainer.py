@@ -44,7 +44,7 @@ class ConvModelTrainer(BaseTrain):
         print("Achieved an accuracy of: %.2f%%\n" % (scores[1] * 100))
 
     def _save_history(self, history, step=0):
-        path= os.path.join(self.config.graphics.dir, 'history-{}'.format(step))
+        path = os.path.join(self.config.graphics.dir, 'history-{}'.format(step))
         plot_history(history).savefig(path)
         print(f'Graph of history of the loss function and accuracy was saved to {path}')
 
