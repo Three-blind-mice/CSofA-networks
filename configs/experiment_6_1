@@ -18,13 +18,12 @@
     },
     "augmentation": {
       "rescale": 0.004,
-      "zoom_range": [0.75, 1.25],
       "horizontal_flip": true,
       "width_shift_range": 0.1,
       "height_shift_range": 0.1
     },
     "generator": {
-      "batch_size": 16,
+      "batch_size": 32,
       "class_mode": "categorical",
       "shuffle": true,
       "random_state": 40
@@ -60,7 +59,7 @@
     "metrics": ["accuracy"],
     "frozen_per_layers": [0],
     "num_epochs": [15],
-    "batch_size": 16,
+    "batch_size": 32,
     "validation_split": 0,
     "verbose": true,
     "steps_per_epoch": null,
@@ -69,8 +68,8 @@
   "callbacks":{
     "cyclic_lr": {
       "exist": true,
-      "base_lr": 0.001,
-      "max_lr": 0.01,
+      "base_lr": 0.00001,
+      "max_lr": 0.001,
       "step_size": 2000,
       "mode": "triangular",
       "gamma": 1
