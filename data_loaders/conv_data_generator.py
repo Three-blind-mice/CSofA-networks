@@ -2,6 +2,7 @@ from base.base_generator import BaseDataGenerator
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from sklearn.model_selection import train_test_split
 import pandas as pd
+import os
 
 
 class DataGenerator(BaseDataGenerator):
@@ -9,7 +10,10 @@ class DataGenerator(BaseDataGenerator):
     def __init__(self, config):
         super(DataGenerator, self).__init__(config)
         train_data = pd.read_csv(self.config.glob.path_to_train, squeeze=True)
+        images_id_list = os.listdir(self.config.glob.path_to_images)
+        train_data = train_data[train_data['Id'].isin(images_id_list)]
         test_data = pd.read_csv(self.config.glob.path_to_test, squeeze=True)
+        test_data = test_data[test_data['Id'].isin(images_id_list)]
         self.config.glob.n_classes = train_data['Class'].nunique()
         if len(self.config.data_loader.split.split_sizes) == 2:
             train_size, val_size = tuple(self.config.data_loader.split.split_sizes)
