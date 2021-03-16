@@ -21,20 +21,19 @@ def plot_sample_images(data, path_to_images):
     return fig
 
 
-def plot_sample_predict(files, path_to_images, generator, predict):
-    plt.figure(figsize=(16, 10))
-    data = pd.DataFrame({'Id': files['Id'].values,
-                         'True class': files['Class'].values,
-                         'Predicted class': pd.Series(predict).replace(
-                             {v: k for k, v in generator.class_indices.items()})})
-    random_image = data.sample(n=9)
+def plot_sample_predict(table, path_to_images):
+    plt.figure(figsize=(60, 30))
+    data = pd.DataFrame({'Id': table['path'].values,
+                         'True class': table['true_label'].values,
+                         'Predicted class': table['predict_label'].values})
+    random_image = data.sample(n=100)
     random_image_paths = random_image['Id'].values
     random_image_cat = random_image['True class'].values
     random_image_predict = random_image['Predicted class'].values
 
     for index, path in enumerate(random_image_paths):
         im = PIL.Image.open(os.path.join(path_to_images, path))
-        plt.subplot(3, 3, index + 1)
+        plt.subplot(10, 10, index + 1)
         plt.imshow(im)
         plt.title(f'True class: {str(random_image_cat[index])},\n predicted class: {str(random_image_predict[index])}')
         plt.axis('off')
@@ -45,7 +44,6 @@ def plot_classes_balance(data):
     fig = plt.figure(figsize=(8, 30))
     sns.countplot(data=data, y='Class')
     plt.show()
-    return fig
 
 
 def plot_sample_images_generator(generator, count_images=6):

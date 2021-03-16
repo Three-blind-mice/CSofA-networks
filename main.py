@@ -14,10 +14,8 @@ def main():
         pass
     except Exception as err:
         print("missing or invalid arguments")
-        print(err)
         exit(0)
     create_dirs([config.callbacks.tensor_board.log_dir, config.callbacks.checkpoint.dir, config.graphics.dir])
-    print(config.callbacks.checkpoint.dir)
     data_generator = DataGenerator(config)
     print('Created the data generator.')
     model = ConvModel(config)
