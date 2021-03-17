@@ -42,6 +42,7 @@ class ConvModelTrainer(BaseTrain):
         print('Model training completed successfully')
 
     def evaluate(self, data):
+        self.model.load_weights(os.path.join(self.config.callbacks.checkpoint.dir, 'best_model.hdf5'))
         scores = self.model.evaluate(data, verbose=1)
         print("Achieved an accuracy of: %.2f%%\n" % (scores[1] * 100))
 
@@ -73,7 +74,6 @@ class ConvModelTrainer(BaseTrain):
         if self.config.trainer.class_weight == 'balanced':
             y_classes = list(train_data.classes)
             class_weights = compute_class_weight('balanced', np.unique(y_classes), y_classes)
-            sample_weights = compute_sample_weight('balanced', y_classes)
             class_weights_dict = dict(zip(np.unique(y_classes), class_weights))
         else:
             class_weights_dict = None
