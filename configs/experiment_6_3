@@ -18,12 +18,12 @@
     },
     "augmentation": {
       "rescale": 0.004,
+      "horizontal_flip": true,
       "width_shift_range": 0.1,
       "height_shift_range": 0.1,
-      "horizontal_flip": true
     },
     "generator": {
-      "batch_size": 10,
+      "batch_size": 14,
       "class_mode": "categorical",
       "shuffle": true,
       "random_state": 40
@@ -49,7 +49,7 @@
     "name": "conv_model_trainer.ConvModelTrainer",
     "mode": "without_fine_tuning",
     "optimizer": {
-      "name": "adadelta",
+      "name": "nadam",
       "learning_rate_factor": 10,
       "params": {
         "learning_rate": 1e-5
@@ -59,7 +59,7 @@
     "metrics": ["accuracy"],
     "frozen_per_layers": [1, 0.5, 0],
     "num_epochs": [15],
-    "batch_size": 10,
+    "batch_size": 14,
     "validation_split": 0,
     "verbose": true,
     "steps_per_epoch": null,
@@ -68,7 +68,7 @@
   "callbacks":{
     "cyclic_lr": {
       "exist": true,
-      "base_lr": 0.0001,
+      "base_lr": 0.001,
       "max_lr": 0.01,
       "step_size": 2000,
       "mode": "triangular",
