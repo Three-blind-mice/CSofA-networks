@@ -19,7 +19,7 @@ def main():
     data_generator = DataGenerator(config)
     print('Created the data generator.')
     model = ConvModel(config)
-    if file is not "None":
+    if file != "None":
         model.load(file)
     print('Created the model.')
     trainer = ConvModelTrainer(config, model.model)
