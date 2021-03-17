@@ -3,6 +3,8 @@ from base.base_train import BaseTrain
 from models.model_setup import optimizers
 from callbacks.cyclic_lr import CyclicLR
 from plot.plot_functions import plot_history
+from sklearn.utils.class_weight import compute_class_weight, compute_sample_weight
+import numpy as np
 import os
 import time
 
@@ -68,6 +70,14 @@ class ConvModelTrainer(BaseTrain):
             loss=loss_function,
             metrics=metrics
         )
+        if self.config.trainer.class_weight == 'balanced':
+            y_classes = list(train_data.classes)
+            class_weights = compute_class_weight('balanced', np.unique(y_classes), y_classes)
+            sample_weights = compute_sample_weight('balanced', y_classes)
+            class_weights_dict = dict(zip(y_classes, class_weights))
+        else:
+            class_weights_dict = None
+        print(class_weights_dict)
         history = self.model.fit(
             train_data,
             validation_data=val_data,
@@ -75,7 +85,7 @@ class ConvModelTrainer(BaseTrain):
             verbose=self.config.trainer.verbose,
             batch_size=self.config.trainer.batch_size,
             validation_split=self.config.trainer.validation_split,
-            class_weight=self.config.trainer.class_weight,
+            class_weight=class_weights_dict,
             steps_per_epoch=self.config.trainer.steps_per_epoch,
             callbacks=self.callbacks,
         )
