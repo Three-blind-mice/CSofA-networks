@@ -20,7 +20,8 @@
       "rescale": 0.004,
       "horizontal_flip": true,
       "width_shift_range": 0.1,
-      "height_shift_range": 0.1
+      "height_shift_range": 0.1,
+      "zoom_range": [0.75,1.25]
     },
     "generator": {
       "batch_size": 16,
