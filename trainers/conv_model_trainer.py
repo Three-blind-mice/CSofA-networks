@@ -74,10 +74,9 @@ class ConvModelTrainer(BaseTrain):
             y_classes = list(train_data.classes)
             class_weights = compute_class_weight('balanced', np.unique(y_classes), y_classes)
             sample_weights = compute_sample_weight('balanced', y_classes)
-            class_weights_dict = dict(zip(y_classes, class_weights))
+            class_weights_dict = dict(zip(np.unique(y_classes), class_weights))
         else:
             class_weights_dict = None
-        print(class_weights_dict)
         history = self.model.fit(
             train_data,
             validation_data=val_data,
