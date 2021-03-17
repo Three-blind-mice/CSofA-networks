@@ -1,0 +1,104 @@
+{
+  "exp": {
+    "name": "exp_6_2"
+  },
+  "glob": {
+    "path_to_train": "datasets/aircraft_data_train.csv",
+    "path_to_test": "datasets/aircraft_data_test.csv",
+    "path_to_images": "datasets/aircraft_images",
+    "n_classes": 91,
+    "image_size": [400, 400],
+    "image_n_chanel": 3
+  },
+  "data_loader": {
+    "name": "conv_data_generator.DataGenerator",
+    "split": {
+      "split_sizes": [0.8, 0.2],
+      "random_state": 100
+    },
+    "augmentation": {
+      "rescale": 0.004,
+      "horizontal_flip": true,
+      "width_shift_range": 0.1,
+      "height_shift_range": 0.1,
+      "rotation_range": 10
+    },
+    "generator": {
+      "batch_size": 16,
+      "class_mode": "categorical",
+      "shuffle": true,
+      "random_state": 40
+    }
+  },
+  "model":{
+    "name": "conv_model.ConvModel",
+    "transfer_model": {
+      "exist": true,
+      "name": "dense_net_201",
+      "weights": "imagenet"
+    },
+    "n_layers": 2,
+    "dense": {
+      "units": [1024, 512],
+      "activation": "tanh_softplus"
+    },
+    "dropout": {
+      "rates": [0.5, 0.5]
+    }
+  },
+  "trainer":{
+    "name": "conv_model_trainer.ConvModelTrainer",
+    "mode": "without_fine_tuning",
+    "optimizer": {
+      "name": "nadam",
+      "learning_rate_factor": 10,
+      "params": {
+        "learning_rate": 1e-5
+      }
+    },
+    "loss_function": "categorical_crossentropy",
+    "metrics": ["accuracy"],
+    "frozen_per_layers": [0],
+    "num_epochs": [10],
+    "batch_size": 16,
+    "validation_split": 0,
+    "verbose": true,
+    "steps_per_epoch": null,
+    "class_weight": "balanced"
+  },
+  "callbacks":{
+    "cyclic_lr": {
+      "exist": true,
+      "base_lr": 0.00001,
+      "max_lr": 0.001,
+      "step_size": 2000,
+      "mode": "triangular2",
+      "gamma": 1
+    },
+    "checkpoint": {
+      "exist": true,
+      "monitor": "val_loss",
+      "mode": "auto",
+      "save_best_only": true,
+      "save_weights_only": true,
+      "verbose": true
+    },
+    "tensor_board": {
+      "exist": true,
+      "write_graph": true
+    },
+    "early_stopping": {
+      "exist": true,
+      "monitor":"val_loss",
+      "patience": 4,
+      "restore_best_weights": true
+    },
+    "reduce_lr_on_plateau": {
+      "exist": true,
+      "monitor": "val_loss",
+      "factor": 0.5,
+      "patience": 2,
+      "min_lr": 0.00001
+    }
+  }
+}
