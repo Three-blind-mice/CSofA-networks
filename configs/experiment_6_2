@@ -24,7 +24,7 @@
       "rotation_range": 10
     },
     "generator": {
-      "batch_size": 16,
+      "batch_size": 8,
       "class_mode": "categorical",
       "shuffle": true,
       "random_state": 40
@@ -60,7 +60,7 @@
     "metrics": ["accuracy"],
     "frozen_per_layers": [0],
     "num_epochs": [10],
-    "batch_size": 16,
+    "batch_size": 8,
     "validation_split": 0,
     "verbose": true,
     "steps_per_epoch": null,
