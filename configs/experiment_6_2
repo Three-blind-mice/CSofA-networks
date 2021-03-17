@@ -58,7 +58,7 @@
     "loss_function": "categorical_crossentropy",
     "metrics": ["accuracy"],
     "frozen_per_layers": [0],
-    "num_epochs": [15],
+    "num_epochs": [10],
     "batch_size": 16,
     "validation_split": 0,
     "verbose": true,
@@ -69,7 +69,7 @@
     "cyclic_lr": {
       "exist": true,
       "base_lr": 0.00001,
-      "max_lr": 0.001,
+      "max_lr": 0.0001,
       "step_size": 2000,
       "mode": "triangular",
       "gamma": 1
