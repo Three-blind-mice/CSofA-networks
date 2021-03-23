@@ -1,6 +1,7 @@
 from tensorflow.keras.applications import DenseNet201, VGG19, Xception
 from tensorflow.keras.optimizers import SGD, Adamax, Adam, Adadelta, Adagrad, Nadam
 from efficientnet.tfkeras import EfficientNetB6, EfficientNetB7
+from tensorflow.keras.regularizers import l1, l2
 
 transfer_models = {
     'dense_net_201': DenseNet201,
@@ -17,4 +18,9 @@ optimizers = {
     'adadelta': Adadelta,
     'adagrad': Adagrad,
     'nadam': Nadam
+}
+
+regularizers = {
+    'l1': l1,
+    'l2': l2
 }

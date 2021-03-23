@@ -59,16 +59,17 @@ def plot_sample_images_generator(generator, count_images=6):
 
 def plot_history(history, step=0):
     fig, axes = plt.subplots(1, 2, figsize=(15, 5))
-    plt.style.use('dark_background')
-    acc = history.history['accuracy']
-    val_acc = history.history['val_accuracy']
-    loss = history.history['loss']
-    val_loss = history.history['val_loss']
-    epochs = range(len(acc))
-    axes[0].plot(epochs, acc, 'b', label='Training acc')
-    axes[0].plot(epochs, val_acc, 'g', label='Validation acc')
-    axes[0].set_title('Training and validation accuracy')
-    axes[1].plot(epochs, loss, 'b', label='Training loss')
-    axes[1].plot(epochs, val_loss, 'g', label='Validation loss')
-    axes[1].set_title('Training and validation loss')
+    axes[0].plot(history.history['accuracy'])
+    axes[0].plot(history.history['val_accuracy'])
+    axes[0].set_title('Model accuracy')
+    axes[0].set_ylabel('Accuracy')
+    axes[0].set_xlabel('Epoch')
+    axes[0].legend(['Train', 'Test'])
+
+    axes[1].plot(history.history['loss'])
+    axes[1].plot(history.history['val_loss'])
+    axes[1].set_title('Model loss')
+    axes[1].set_ylabel('Loss')
+    axes[1].set_xlabel('Epoch')
+    axes[1].legend(['Train', 'Test'])
     return fig
