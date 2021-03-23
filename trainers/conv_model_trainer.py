@@ -63,16 +63,7 @@ class ConvModelTrainer(BaseTrain):
         print(f'Trainable layers: {trainable_layers_count} out of {base_layers_count}\n')
 
     def _fit(self, train_data, val_data, step=0):
-        optimizer_name = self.config.model.optimizer.name.lower()
-        optimizer_params = self.config.model.optimizer.params.toDict()
-        optimizer = optimizers[optimizer_name](**optimizer_params)
-        loss_function = self.config.model.loss_function
-        metrics = self.config.model.metrics
-        self.model.compile(
-            optimizer=optimizer,
-            loss=loss_function,
-            metrics=metrics
-        )
+
         if self.config.trainer.class_weight == 'balanced':
             y_classes = list(train_data.classes)
             class_weights = compute_class_weight('balanced', np.unique(y_classes), y_classes)
