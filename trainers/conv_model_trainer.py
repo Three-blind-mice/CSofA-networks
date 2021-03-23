@@ -26,13 +26,13 @@ class ConvModelTrainer(BaseTrain):
                 start_time = time.time()
                 self.model.layers[0].trainable = True
                 self._freeze_base_layers(p)
-                print(f'Current learning rate: {self.model.optimizer.learning_rate.numpy()}')
                 history = self._fit(train_data, val_data, step=step)
                 self._save_history(history=history, step=step+1)
                 self.model.load_weights(os.path.join(self.config.callbacks.checkpoint.dir, 'best_model.hdf5'))
                 self.model.save(os.path.join(self.config.callbacks.checkpoint.dir, 'model_step-{}.hdf5'.format(step)))
                 self.config.model.optimizer.params.learning_rate /= self.config.trainer.learning_rate_factor
                 #backend.set_value(self.model.optimizer.learning_rate, self.config.trainer.learning_rate_factor * self.model.optimizer.learning_rate)
+                print(f'Learning rate: {self.model.optimizer.learning_rate.numpy()}')
                 print(f"Fine tuning step: {step} was completed in {((time.time()-start_time)/60):.2f} min\n")
         elif self.config.trainer.mode.lower() == 'without_fine_tuning':
             self.model.layers[0].trainable = True
