@@ -19,6 +19,7 @@ class ConvModel(BaseModel):
                 include_top=False,
                 input_shape=input_shape
             )
+        transfer_model.trainable = False
         self.model = Sequential([
             transfer_model,
             GlobalAveragePooling2D()
