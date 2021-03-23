@@ -19,7 +19,7 @@ class ConvModel(BaseModel):
                 include_top=False,
                 input_shape=input_shape
             )
-        transfer_model.trainable = False
+
         self.model = Sequential([
             transfer_model,
             GlobalAveragePooling2D()
@@ -47,4 +47,4 @@ class ConvModel(BaseModel):
             self.model.add(BatchNormalization())
             self.model.add(Dropout(rate=dropout_rate))
         self.model.add(Dense(n_classes, activation='softmax'))
-
+        self.model.layers[0].trainable = False
