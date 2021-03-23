@@ -26,12 +26,13 @@ class ConvModelTrainer(BaseTrain):
                 start_time = time.time()
                 self.model.layers[0].trainable = True
                 self._freeze_base_layers(p)
-                #print(f'Current learning rate: {self.model.optimizer.learning_rate.numpy()}')
+                print(f'Current learning rate: {self.model.optimizer.learning_rate.numpy()}')
                 history = self._fit(train_data, val_data, step=step)
                 self._save_history(history=history, step=step+1)
                 self.model.load_weights(os.path.join(self.config.callbacks.checkpoint.dir, 'best_model.hdf5'))
                 self.model.save(os.path.join(self.config.callbacks.checkpoint.dir, 'model_step-{}.hdf5'.format(step)))
-                backend.set_value(self.model.optimizer.learning_rate, self.config.trainer.learning_rate_factor * self.model.optimizer.learning_rate)
+                self.config.model.optimizer.params.learning_rate /= self.config.trainer.learning_rate_factor
+                #backend.set_value(self.model.optimizer.learning_rate, self.config.trainer.learning_rate_factor * self.model.optimizer.learning_rate)
                 print(f"Fine tuning step: {step} was completed in {((time.time()-start_time)/60):.2f} min\n")
         elif self.config.trainer.mode.lower() == 'without_fine_tuning':
             self.model.layers[0].trainable = True
@@ -63,7 +64,16 @@ class ConvModelTrainer(BaseTrain):
         print(f'Trainable layers: {trainable_layers_count} out of {base_layers_count}\n')
 
     def _fit(self, train_data, val_data, step=0):
-
+        optimizer_name = self.config.model.optimizer.name.lower()
+        optimizer_params = self.config.model.optimizer.params.toDict()
+        optimizer = optimizers[optimizer_name](**optimizer_params)
+        loss_function = self.config.model.loss_function
+        metrics = self.config.model.metrics
+        self.model.compile(
+            optimizer=optimizer,
+            loss=loss_function,
+            metrics=metrics
+        )
         if self.config.trainer.class_weight == 'balanced':
             y_classes = list(train_data.classes)
             class_weights = compute_class_weight('balanced', np.unique(y_classes), y_classes)
