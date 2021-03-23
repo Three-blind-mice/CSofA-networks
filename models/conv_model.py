@@ -2,7 +2,6 @@ from tensorflow.keras import Sequential
 from tensorflow.python.keras.layers import GlobalAveragePooling2D, Dense, BatchNormalization, Dropout
 from tensorflow.keras import activations
 from tensorflow.keras import backend
-
 from base.base_model import BaseModel
 from models.model_setup import transfer_models, regularizers, optimizers
 
@@ -47,13 +46,4 @@ class ConvModel(BaseModel):
             self.model.add(BatchNormalization())
             self.model.add(Dropout(rate=dropout_rate))
         self.model.add(Dense(n_classes, activation='softmax'))
-        optimizer_name = self.config.model.optimizer.name.lower()
-        optimizer_params = self.config.model.optimizer.params.toDict()
-        optimizer = optimizers[optimizer_name](**optimizer_params)
-        loss_function = self.config.model.loss_function
-        metrics = self.config.model.metrics
-        self.model.compile(
-            optimizer=optimizer,
-            loss=loss_function,
-            metrics=metrics
-        )
+
