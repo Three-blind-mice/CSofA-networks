@@ -86,7 +86,7 @@
     "checkpoint": {
       "exist": true,
       "monitor": "val_loss",
-      "mode": "max",
+      "mode": "auto",
       "save_best_only": true,
       "save_weights_only": true,
       "verbose": true
