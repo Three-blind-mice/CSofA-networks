@@ -1,13 +1,13 @@
 {
   "exp": {
-    "name": "exp_7_1"
+    "name": "exp_7"
   },
   "glob": {
     "path_to_train": "datasets/aircraft_data_train.csv",
     "path_to_test": "datasets/aircraft_data_test.csv",
     "path_to_images": "datasets/aircraft_images",
     "n_classes": 91,
-    "image_size": [512, 512],
+    "image_size": [250, 250],
     "image_n_chanel": 3
   },
   "data_loader": {
@@ -18,8 +18,9 @@
     },
     "augmentation": {
       "rescale": 0.004,
-      "zoom_range": [0.75, 1.25],
-      "horizontal_flip": true
+      "horizontal_flip": true,
+      "width_shift_range": 0.2,
+      "height_shift_range": 0.2
     },
     "generator": {
       "batch_size": 8,
@@ -32,51 +33,60 @@
     "name": "conv_model.ConvModel",
     "transfer_model": {
       "exist": true,
-      "name": "dense_net_201",
+      "name": "efficient_net_b6",
       "weights": "imagenet"
     },
-    "n_layers": 1,
+    "n_layers": 2,
     "dense": {
-      "units": [2048],
-      "activation": "tanh_softplus"
+      "units": [512, 256],
+      "activation": "relu",
+      "kernel_regularizer": {
+        "exist": true,
+        "name": "l2",
+        "alpha": 0.001
+      },
+      "kernel_initializer": {
+        "exist": true,
+        "name": "he_uniform"
+      }
     },
     "dropout": {
-      "rates": [0.5]
-    }
+      "rates": [0.3, 0.3]
+    },
+    "optimizer": {
+      "name": "adam",
+      "params": {
+        "learning_rate": 1e-3
+      }
+    },
+    "loss_function": "categorical_crossentropy",
+    "metrics": ["accuracy"]
   },
   "trainer":{
     "name": "conv_model_trainer.ConvModelTrainer",
     "mode": "without_fine_tuning",
-    "optimizer": {
-      "name": "nadam",
-      "learning_rate_factor": 10,
-      "params": {
-        "learning_rate": 1e-5
-      }
-    },
-    "loss_function": "categorical_crossentropy",
-    "metrics": ["accuracy"],
+    "learning_rate_factor": 10,
     "frozen_per_layers": [0],
-    "num_epochs": [10],
+    "num_epochs": [20],
     "batch_size": 8,
     "validation_split": 0,
     "verbose": true,
     "steps_per_epoch": null,
-    "class_weight": null
+    "class_weight": "balanced"
   },
   "callbacks":{
     "cyclic_lr": {
       "exist": true,
-      "base_lr": 0.001,
-      "max_lr": 0.01,
+      "base_lr": 1e-3,
+      "max_lr": 1e-2,
       "step_size": 2000,
       "mode": "triangular",
       "gamma": 1
     },
     "checkpoint": {
       "exist": true,
-      "monitor": "val_accuracy",
-      "mode": "max",
+      "monitor": "val_loss",
+      "mode": "auto",
       "save_best_only": true,
       "save_weights_only": true,
       "verbose": true
@@ -87,16 +97,16 @@
     },
     "early_stopping": {
       "exist": true,
-      "monitor":"val_accuracy",
-      "patience": 4,
+      "monitor":"val_loss",
+      "patience": 6,
       "restore_best_weights": true
     },
     "reduce_lr_on_plateau": {
       "exist": true,
       "monitor": "val_loss",
-      "factor": 0.1,
+      "factor": 0.5,
       "patience": 2,
-      "min_lr": 0.00001
+      "min_lr": 1e-6
     }
   }
 }
