@@ -26,7 +26,7 @@ class ConvModelTrainer(BaseTrain):
                 start_time = time.time()
                 self.model.layers[0].trainable = True
                 self._freeze_base_layers(p)
-                print(f'Current learning rate: {self.model.optimizer.learning_rate.numpy()}')
+                #print(f'Current learning rate: {self.model.optimizer.learning_rate.numpy()}')
                 history = self._fit(train_data, val_data, step=step)
                 self._save_history(history=history, step=step+1)
                 self.model.load_weights(os.path.join(self.config.callbacks.checkpoint.dir, 'best_model.hdf5'))
