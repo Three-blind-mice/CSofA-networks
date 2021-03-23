@@ -47,5 +47,3 @@ class ConvModel(BaseModel):
             self.model.add(BatchNormalization())
             self.model.add(Dropout(rate=dropout_rate))
         self.model.add(Dense(n_classes, activation='softmax'))
-        for layer in self.model.layers[0].layers[:]:
-            layer.trainable = False

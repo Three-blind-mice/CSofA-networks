@@ -7,7 +7,7 @@
     "path_to_test": "datasets/aircraft_data_test.csv",
     "path_to_images": "datasets/aircraft_images",
     "n_classes": 91,
-    "image_size": [250, 250],
+    "image_size": [256, 256],
     "image_n_chanel": 3
   },
   "data_loader": {
@@ -38,7 +38,7 @@
     },
     "n_layers": 2,
     "dense": {
-      "units": [512, 256],
+      "units": [512],
       "activation": "relu",
       "kernel_regularizer": {
         "exist": true,
@@ -54,7 +54,7 @@
       "rates": [0.3, 0.3]
     },
     "optimizer": {
-      "name": "adam",
+      "name": "nadam",
       "params": {
         "learning_rate": 1e-3
       }
@@ -92,7 +92,7 @@
       "verbose": true
     },
     "tensor_board": {
-      "exist": true,
+      "exist": false,
       "write_graph": true
     },
     "early_stopping": {
