@@ -23,7 +23,7 @@
       "height_shift_range": 0.2
     },
     "generator": {
-      "batch_size": 8,
+      "batch_size": 16,
       "class_mode": "categorical",
       "shuffle": true,
       "random_state": 40
@@ -68,11 +68,11 @@
     "learning_rate_factor": 10,
     "frozen_per_layers": [1, 0.5, 0],
     "num_epochs": [10, 10, 25],
-    "batch_size": 8,
+    "batch_size": 16,
     "validation_split": 0,
     "verbose": true,
     "steps_per_epoch": null,
-    "class_weight": "balanced"
+    "class_weight": null
   },
   "callbacks":{
     "cyclic_lr": {
