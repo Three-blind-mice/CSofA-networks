@@ -66,8 +66,8 @@
     "name": "conv_model_trainer.ConvModelTrainer",
     "mode": "with_fine_tuning",
     "learning_rate_factor": 10,
-    "frozen_per_layers": [1, 0.5, 0],
-    "num_epochs": [10, 10, 25],
+    "frozen_per_layers": [1, 0],
+    "num_epochs": [10, 25],
     "batch_size": 16,
     "validation_split": 0,
     "verbose": true,
@@ -76,7 +76,7 @@
   },
   "callbacks":{
     "cyclic_lr": {
-      "exist": true,
+      "exist": false,
       "base_lr": 1e-3,
       "max_lr": 1e-2,
       "step_size": 2000,
@@ -98,7 +98,7 @@
     "early_stopping": {
       "exist": true,
       "monitor":"val_loss",
-      "patience": 6,
+      "patience": 8,
       "restore_best_weights": true
     },
     "reduce_lr_on_plateau": {
