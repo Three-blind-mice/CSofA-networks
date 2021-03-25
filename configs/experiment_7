@@ -14,7 +14,7 @@
     "name": "conv_data_generator.DataGenerator",
     "split": {
       "split_sizes": [0.8, 0.2],
-      "random_state": 100
+      "random_state": 42
     },
     "augmentation": {
       "rescale": 0.004,
@@ -36,7 +36,7 @@
       "name": "efficient_net_b6",
       "weights": "imagenet"
     },
-    "n_layers": 2,
+    "n_layers": 1,
     "dense": {
       "units": [512],
       "activation": "relu",
@@ -51,7 +51,7 @@
       }
     },
     "dropout": {
-      "rates": [0.3, 0.3]
+      "rates": [0.3]
     },
     "optimizer": {
       "name": "nadam",
