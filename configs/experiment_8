@@ -22,7 +22,7 @@
       "horizontal_flip": true
     },
     "generator": {
-      "batch_size": 16,
+      "batch_size": 32,
       "class_mode": "categorical",
       "shuffle": true,
       "random_state": 42,
@@ -33,13 +33,13 @@
     "name": "conv_model.ConvModel",
     "transfer_model": {
       "exist": true,
-      "name": "efficient_net_b6",
+      "name": "dense_net_201",
       "weights": "imagenet"
     },
     "n_layers": 2,
     "dense": {
       "units": [1024, 512],
-      "activation": "relu",
+      "activation": "tanh_softplus",
       "kernel_regularizer": {
         "exist": true,
         "name": "l2",
@@ -68,7 +68,7 @@
     "learning_rate_factor": 10,
     "frozen_per_layers": [1, 0],
     "num_epochs": [20, 30],
-    "batch_size": 16,
+    "batch_size": 32,
     "validation_split": 0,
     "verbose": true,
     "steps_per_epoch": null,
@@ -76,7 +76,7 @@
   },
   "callbacks":{
     "cyclic_lr": {
-      "exist": false,
+      "exist": true,
       "base_lr": 1e-3,
       "max_lr": 1e-2,
       "step_size": 2000,
