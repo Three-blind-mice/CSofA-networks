@@ -45,7 +45,7 @@ class DataGenerator(BaseDataGenerator):
             batch_size=self.config.data_loader.generator.batch_size,
             class_mode=self.config.data_loader.generator.class_mode,
             seed=self.config.data_loader.generator.random_state,
-            interpolation=self.config.data_loader.generator.interpolation
+            #interpolation=self.config.data_loader.generator.interpolation
         )
 
 
