@@ -15,7 +15,7 @@
     "name": "conv_data_generator.DataGenerator",
     "split": {
       "split_sizes": [0.8, 0.2],
-      "random_state": 100
+      "random_state": 10
     },
     "augmentation": {
       "rescale": 0.004,
