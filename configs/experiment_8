@@ -25,7 +25,7 @@
       "batch_size": 16,
       "class_mode": "categorical",
       "shuffle": true,
-      "random_state": 100,
+      "random_state": 42,
       "interpolation": "bicubic"
     }
   },
@@ -38,7 +38,7 @@
     },
     "n_layers": 2,
     "dense": {
-      "units": [512, 256],
+      "units": [1024, 512],
       "activation": "relu",
       "kernel_regularizer": {
         "exist": true,
@@ -67,7 +67,7 @@
     "mode": "without_fine_tuning",
     "learning_rate_factor": 10,
     "frozen_per_layers": [1, 0],
-    "num_epochs": [15, 30],
+    "num_epochs": [20, 30],
     "batch_size": 16,
     "validation_split": 0,
     "verbose": true,
