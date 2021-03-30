@@ -43,7 +43,7 @@
       "kernel_regularizer": {
         "exist": true,
         "name": "l2",
-        "alpha": 0.01
+        "alpha": 0.001
       },
       "kernel_initializer": {
         "exist": true,
@@ -51,12 +51,12 @@
       }
     },
     "dropout": {
-      "rates": [0.3, 0.5]
+      "rates": [0.3, 0.3]
     },
     "optimizer": {
       "name": "adam",
       "params": {
-        "learning_rate": 1e-3
+        "learning_rate": 1e-2
       }
     },
     "loss_function": "categorical_crossentropy",
@@ -77,8 +77,8 @@
   "callbacks":{
     "cyclic_lr": {
       "exist": true,
-      "base_lr": 1e-3,
-      "max_lr": 1e-2,
+      "base_lr": 1e-2,
+      "max_lr": 1e-1,
       "step_size": 2000,
       "mode": "triangular",
       "gamma": 1
