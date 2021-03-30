@@ -8,7 +8,7 @@
     "path_to_test": "datasets/data/test",
     "path_to_images": "datasets/data",
     "n_classes": 84,
-    "image_size": [350, 350],
+    "image_size": [256, 256],
     "image_n_chanel": 3
   },
   "data_loader": {
@@ -25,7 +25,7 @@
       "batch_size": 16,
       "class_mode": "categorical",
       "shuffle": true,
-      "random_state": 40,
+      "random_state": 100,
       "interpolation": "bicubic"
     }
   },
@@ -38,7 +38,7 @@
     },
     "n_layers": 2,
     "dense": {
-      "units": [1024, 512],
+      "units": [512, 256],
       "activation": "relu",
       "kernel_regularizer": {
         "exist": true,
