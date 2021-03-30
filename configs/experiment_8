@@ -13,19 +13,17 @@
   },
   "data_loader": {
     "name": "conv_data_generator.DataGenerator",
-    "split": {
-      "split_sizes": [0.8, 0.2],
-      "random_state": 10
-    },
     "augmentation": {
       "rescale": 0.004,
-      "horizontal_flip": true
+      "horizontal_flip": true,
+      "width_shift_range": 0.2,
+      "height_shift_range": 0.2
     },
     "generator": {
       "batch_size": 32,
       "class_mode": "categorical",
       "shuffle": true,
-      "random_state": 100,
+      "random_state": 58,
       "interpolation": "bicubic"
     }
   },
@@ -43,7 +41,7 @@
       "kernel_regularizer": {
         "exist": true,
         "name": "l2",
-        "alpha": 0.001
+        "alpha": 0.00001
       },
       "kernel_initializer": {
         "exist": false,
