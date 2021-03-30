@@ -38,12 +38,12 @@
     },
     "n_layers": 2,
     "dense": {
-      "units": [512, 256],
+      "units": [1024, 512],
       "activation": "relu",
       "kernel_regularizer": {
         "exist": true,
         "name": "l2",
-        "alpha": 0.001
+        "alpha": 0.01
       },
       "kernel_initializer": {
         "exist": true,
@@ -51,7 +51,7 @@
       }
     },
     "dropout": {
-      "rates": [0.3, 0.3]
+      "rates": [0.3, 0.5]
     },
     "optimizer": {
       "name": "adam",
@@ -76,7 +76,7 @@
   },
   "callbacks":{
     "cyclic_lr": {
-      "exist": true,
+      "exist": false,
       "base_lr": 1e-3,
       "max_lr": 1e-2,
       "step_size": 2000,
@@ -98,13 +98,13 @@
     "early_stopping": {
       "exist": true,
       "monitor":"val_loss",
-      "patience": 6,
+      "patience": 5,
       "restore_best_weights": true
     },
     "reduce_lr_on_plateau": {
       "exist": true,
       "monitor": "val_loss",
-      "factor": 0.5,
+      "factor": 0.1,
       "patience": 2,
       "min_lr": 1e-6
     }
