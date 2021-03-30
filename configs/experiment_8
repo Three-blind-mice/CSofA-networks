@@ -66,7 +66,7 @@
     "name": "conv_model_trainer.ConvModelTrainer",
     "mode": "without_fine_tuning",
     "learning_rate_factor": 10,
-    "frozen_per_layers": [1, 0],
+    "frozen_per_layers": [0],
     "num_epochs": [20, 30],
     "batch_size": 32,
     "validation_split": 0,
