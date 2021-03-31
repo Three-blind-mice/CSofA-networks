@@ -15,9 +15,7 @@
     "name": "conv_data_generator.DataGenerator",
     "augmentation": {
       "rescale": 0.004,
-      "horizontal_flip": true,
-      "width_shift_range": 0.2,
-      "height_shift_range": 0.2
+      "horizontal_flip": true
     },
     "generator": {
       "batch_size": 32,
@@ -31,20 +29,20 @@
     "name": "conv_model.ConvModel",
     "transfer_model": {
       "exist": true,
-      "name": "dense_net_201",
+      "name": "efficient_net_b6",
       "weights": "imagenet"
     },
     "n_layers": 2,
     "dense": {
       "units": [1024, 512],
-      "activation": "tanh_softplus",
+      "activation": "relu",
       "kernel_regularizer": {
         "exist": true,
         "name": "l2",
         "alpha": 0.00001
       },
       "kernel_initializer": {
-        "exist": false,
+        "exist": true,
         "name": "he_uniform"
       }
     },
@@ -54,7 +52,7 @@
     "optimizer": {
       "name": "nadam",
       "params": {
-        "learning_rate": 1e-3
+        "learning_rate": 1e-2
       }
     },
     "loss_function": "categorical_crossentropy",
@@ -74,7 +72,7 @@
   },
   "callbacks":{
     "cyclic_lr": {
-      "exist": true,
+      "exist": false,
       "base_lr": 1e-3,
       "max_lr": 1e-2,
       "step_size": 2000,
