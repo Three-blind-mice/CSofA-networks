@@ -65,7 +65,7 @@
   },
   "trainer":{
     "name": "conv_model_trainer.ConvModelTrainer",
-    "mode": "with_fine_tuning",
+    "mode": "without_fine_tuning",
     "learning_rate_factor": 10,
     "frozen_per_layers": [1, 0.5, 0],
     "num_epochs": [10, 20, 50],
