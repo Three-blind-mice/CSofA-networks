@@ -8,7 +8,7 @@
     "path_to_test": "datasets/data/test",
     "path_to_images": "datasets/data",
     "n_classes": 84,
-    "image_size": [299, 299],
+    "image_size": [256, 256],
     "image_n_chanel": 3
   },
   "data_loader": {
