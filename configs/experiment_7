@@ -3,10 +3,11 @@
     "name": "exp_7"
   },
   "glob": {
-    "path_to_train": "datasets/aircraft_data_train.csv",
-    "path_to_test": "datasets/aircraft_data_test.csv",
-    "path_to_images": "datasets/aircraft_images",
-    "n_classes": 91,
+    "path_to_train": "datasets/data/train",
+    "path_to_valid": "datasets/data/valid",
+    "path_to_test": "datasets/data/test",
+    "path_to_images": "datasets/data",
+    "n_classes": 84,
     "image_size": [256, 256],
     "image_n_chanel": 3
   },
