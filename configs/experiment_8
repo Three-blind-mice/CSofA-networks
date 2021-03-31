@@ -35,13 +35,13 @@
     "name": "conv_model.ConvModel",
     "transfer_model": {
       "exist": true,
-      "name": "efficient_net_b6",
+      "name": "dense_net_201",
       "weights": "imagenet"
     },
     "n_layers": 2,
     "dense": {
       "units": [1024, 512],
-      "activation": "relu",
+      "activation": "tanh_softplus",
       "kernel_regularizer": {
         "exist": true,
         "name": "l2",
