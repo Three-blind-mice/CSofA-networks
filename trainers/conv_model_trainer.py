@@ -73,6 +73,9 @@ class ConvModelTrainer(BaseTrain):
             loss=loss_function,
             metrics=metrics
         )
+        train_data.reset()
+        steps_per_epoch = np.ceil(train_data.n / train_data.batch_size)
+        validation_steps = np.ceil(val_data.n / val_data.batch_size)
         if self.config.trainer.class_weight == 'balanced':
             y_classes = list(train_data.classes)
             class_weights = compute_class_weight('balanced', np.unique(y_classes), y_classes)
@@ -85,9 +88,9 @@ class ConvModelTrainer(BaseTrain):
             epochs=self.config.trainer.num_epochs[step],
             verbose=self.config.trainer.verbose,
             batch_size=self.config.trainer.batch_size,
-            validation_split=self.config.trainer.validation_split,
+            validation_steps=validation_steps,
             class_weight=class_weights_dict,
-            steps_per_epoch=self.config.trainer.steps_per_epoch,
+            steps_per_epoch=steps_per_epoch,
             callbacks=self.callbacks,
         )
         return history

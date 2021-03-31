@@ -22,7 +22,8 @@ class ConvModel(BaseModel):
 
         self.model = Sequential([
             transfer_model,
-            GlobalAveragePooling2D()
+            GlobalAveragePooling2D(),
+            Dropout(0.3)
         ])
         n_layers = len(self.config.model.dense.units)
         dense_units = self.config.model.dense.units
