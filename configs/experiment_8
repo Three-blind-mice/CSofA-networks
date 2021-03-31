@@ -78,9 +78,9 @@
   },
   "callbacks":{
     "cyclic_lr": {
-      "exist": false,
-      "base_lr": 1e-3,
-      "max_lr": 1e-2,
+      "exist": true,
+      "base_lr": 1e-2,
+      "max_lr": 1e-1,
       "step_size": 2000,
       "mode": "triangular",
       "gamma": 1
