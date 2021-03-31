@@ -20,13 +20,13 @@
       "rotation_range": 45,
       "width_shift_range": 0.1,
       "height_shift_range": 0.1,
-      "fill_mode": "nearest"
+      "fill_mode": "bicubic"
     },
     "generator": {
       "batch_size": 128,
       "class_mode": "categorical",
       "shuffle": true,
-      "random_state": 58,
+      "random_state": 12,
       "interpolation": "bicubic"
     }
   },
@@ -42,7 +42,7 @@
       "units": [1024, 512],
       "activation": "relu",
       "kernel_regularizer": {
-        "exist": true,
+        "exist": false,
         "name": "l2",
         "alpha": 0.00001
       },
@@ -52,10 +52,10 @@
       }
     },
     "dropout": {
-      "rates": [0.3, 0.3]
+      "rates": [0.3, 0.2]
     },
     "optimizer": {
-      "name": "adam",
+      "name": "nadam",
       "params": {
         "learning_rate": 1e-2
       }
@@ -73,7 +73,7 @@
     "validation_split": 0,
     "verbose": true,
     "steps_per_epoch": null,
-    "class_weight": null
+    "class_weight": "balanced"
   },
   "callbacks":{
     "cyclic_lr": {

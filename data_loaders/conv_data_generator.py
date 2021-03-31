@@ -43,6 +43,7 @@ class DataGenerator(BaseDataGenerator):
             directory=path,
             shuffle=shuffle,
             save_format='jpg',
+            color_mode="rgb",
             target_size=tuple(self.config.glob.image_size),
             batch_size=batch_size,
             class_mode=self.config.data_loader.generator.class_mode,
