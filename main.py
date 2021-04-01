@@ -7,11 +7,11 @@ from utils.utils import get_args
 
 
 def main():
-    args = get_args()
-    config = process_config(args.config)
-    file = args.model_file
+
     try:
-        pass
+        args = get_args()
+        config = process_config(args.config)
+        file = args.model_file
     except Exception as err:
         print("missing or invalid arguments")
         exit(0)

@@ -23,7 +23,7 @@
       "fill_mode": "bicubic"
     },
     "generator": {
-      "batch_size": 128,
+      "batch_size": 64,
       "class_mode": "categorical",
       "shuffle": true,
       "random_state": 12,
@@ -69,7 +69,7 @@
     "learning_rate_factor": 10,
     "frozen_per_layers": [1, 0.5, 0],
     "num_epochs": [10, 20, 50],
-    "batch_size": 128,
+    "batch_size": 64,
     "validation_split": 0,
     "verbose": true,
     "steps_per_epoch": null,
