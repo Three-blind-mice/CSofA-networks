@@ -22,8 +22,7 @@
       "horizontal_flip": true,
       "rotation_range": 45,
       "width_shift_range": 0.1,
-      "height_shift_range": 0.1,
-      "fill_mode": "bicubic"
+      "height_shift_range": 0.1
     },
     "generator": {
       "batch_size": 16,
