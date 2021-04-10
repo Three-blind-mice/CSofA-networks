@@ -48,7 +48,7 @@ def plot_classes_balance(data):
 
 def plot_sample_images_generator(generator, count_images=6):
     x, y = generator.next()
-    fig = plt.figure(figsize=(12, 8))
+    fig = plt.figure(figsize=(30, 10))
     for i in range(0, count_images):
         image = x[i]
         plt.subplot(3, 3, i + 1)
